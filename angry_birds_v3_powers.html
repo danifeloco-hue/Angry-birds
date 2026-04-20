@@ -4,41 +4,84 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:#87CEEB;font-family:Georgia,serif;overflow:hidden;}
 canvas{display:block;cursor:crosshair;}
-#ui{position:absolute;top:10px;left:50%;transform:translateX(-50%);display:flex;gap:12px;align-items:center;background:rgba(255,255,255,.9);border-radius:20px;padding:6px 16px;box-shadow:0 2px 8px rgba(0,0,0,.15);white-space:nowrap;z-index:10;}
+#ui{position:absolute;top:10px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;background:rgba(255,255,255,.92);border-radius:20px;padding:6px 14px;box-shadow:0 2px 8px rgba(0,0,0,.15);white-space:nowrap;z-index:10;}
 #score{font-size:20px;color:#c0392b;font-weight:900;min-width:44px;text-align:center;}
 #birds-hud{font-size:12px;color:#2c6e1a;font-weight:bold;}
 #level-badge{font-size:11px;font-weight:bold;padding:3px 9px;border-radius:10px;color:#fff;}
 .lb-easy{background:#27ae60;}.lb-medium{background:#e67e22;}.lb-hard{background:#c0392b;}
-#power-hint{font-size:11px;color:#7f4a00;background:#fff3cd;border-radius:8px;padding:3px 8px;max-width:160px;}
+#world-badge{font-size:11px;font-weight:bold;padding:3px 9px;border-radius:10px;background:#8e44ad;color:#fff;}
+#power-hint{font-size:11px;color:#7f4a00;background:#fff3cd;border-radius:8px;padding:3px 8px;max-width:180px;}
 #menu-btn{background:#7f8c8d;color:#fff;border:none;border-radius:10px;padding:4px 10px;font-size:11px;cursor:pointer;font-weight:bold;}
 
-/* OVERLAYS — all use min-height so iframe sizes correctly */
-.screen{position:absolute;inset:0;min-height:100vh;background:rgba(20,55,10,.75);display:flex;align-items:center;justify-content:center;z-index:20;}
+.screen{position:absolute;inset:0;min-height:100vh;display:flex;align-items:center;justify-content:center;z-index:20;}
 .screen.off{display:none;}
-.panel{background:#fffdf5;border-radius:24px;padding:28px 36px;text-align:center;max-width:480px;width:92%;}
-.panel h1{font-size:28px;color:#c0392b;margin-bottom:4px;}
-.panel h2{font-size:22px;color:#c0392b;margin-bottom:8px;}
-.panel p{font-size:14px;color:#5a3a10;margin-bottom:14px;line-height:1.5;}
-.lvl-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
-.lvl-btn{border:none;border-radius:14px;padding:13px 18px;font-size:14px;font-weight:bold;color:#fff;cursor:pointer;min-width:105px;}
-.lvl-btn:hover{opacity:.88;}
+
+/* BIENVENIDA */
+#welcome-screen{background:linear-gradient(160deg,#1a0533 0%,#3b1060 50%,#6b2fa0 100%);}
+.welcome-panel{text-align:center;padding:36px 28px;max-width:500px;width:92%;}
+.welcome-panel h1{font-size:36px;color:#f1c40f;margin-bottom:4px;letter-spacing:2px;}
+.welcome-panel .subtitle{font-size:14px;color:#e8d5f5;margin-bottom:22px;font-style:italic;}
+.bird-legend{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;margin-bottom:18px;}
+.bl{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:7px 9px;font-size:11px;color:#f0e6ff;min-width:86px;}
+.bl b{display:block;font-size:12px;margin-bottom:2px;}
+.hint-txt{font-size:12px;color:#c9a0e8;margin-bottom:22px;}
+.start-btn{background:linear-gradient(135deg,#f1c40f,#e67e22);color:#3b1060;border:none;border-radius:18px;padding:15px 44px;font-size:19px;font-weight:bold;cursor:pointer;font-family:Georgia,serif;box-shadow:0 4px 20px rgba(241,196,15,.4);}
+.start-btn:hover{transform:scale(1.04);}
+.art-deco{color:#c9a0e8;font-size:12px;margin-top:16px;letter-spacing:1px;}
+
+/* SELECCIÓN DE NIVEL */
+#levels-screen{background:rgba(20,10,40,.9);}
+.levels-panel{background:#fffdf5;border-radius:24px;padding:26px 32px;text-align:center;max-width:460px;width:92%;}
+.levels-panel h2{font-size:24px;color:#6b2fa0;margin-bottom:4px;}
+.levels-panel p{font-size:13px;color:#5a3a10;margin-bottom:18px;}
+.lvl-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.lvl-btn{border:none;border-radius:14px;padding:13px 16px;font-size:14px;font-weight:bold;color:#fff;cursor:pointer;min-width:108px;font-family:Georgia,serif;}
+.lvl-btn:hover{opacity:.88;transform:scale(1.03);}
 .lvl-btn small{display:block;font-size:11px;font-weight:normal;margin-top:3px;opacity:.9;}
 .btn-easy{background:#27ae60;}.btn-medium{background:#e67e22;}.btn-hard{background:#c0392b;}
-.bird-legend{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:10px 0 14px;}
-.bl{background:#f8f4e8;border-radius:10px;padding:7px 10px;font-size:11px;color:#5a3a10;min-width:90px;}
-.bl b{display:block;font-size:13px;margin-bottom:2px;}
+.back-link{margin-top:14px;font-size:13px;color:#888;cursor:pointer;text-decoration:underline;}
 
-/* TRIVIA / TRIVIA INFO */
-.trivia-box{background:#f0f8ff;border-radius:16px;padding:18px 22px;margin-bottom:16px;text-align:left;}
-.trivia-box h3{font-size:15px;color:#1a4a7a;margin-bottom:8px;}
-.trivia-box p{font-size:13px;color:#2c3e50;margin:0;}
-.trivia-opts{display:flex;gap:10px;justify-content:center;margin-top:12px;}
-.topt{border:none;border-radius:10px;padding:10px 24px;font-size:14px;font-weight:bold;cursor:pointer;color:#fff;}
+/* SELECCIÓN DE MUNDO */
+#worlds-screen{background:rgba(20,10,40,.9);}
+.worlds-panel{background:#fffdf5;border-radius:24px;padding:24px 28px;text-align:center;max-width:500px;width:94%;}
+.worlds-panel h2{font-size:22px;margin-bottom:4px;}
+.worlds-panel .wsubtitle{font-size:13px;color:#888;margin-bottom:18px;}
+.worlds-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:16px;}
+.world-btn{border:none;border-radius:12px;padding:10px 4px;font-size:12px;font-weight:bold;cursor:pointer;font-family:Georgia,serif;display:flex;flex-direction:column;align-items:center;gap:4px;transition:transform .1s;}
+.world-btn .wnum{font-size:16px;font-weight:900;}
+.world-btn .wname{font-size:9px;font-weight:normal;line-height:1.2;text-align:center;}
+.world-btn.unlocked{color:#fff;}
+.world-btn.unlocked:hover{transform:scale(1.08);}
+.world-btn.locked{background:#ddd;color:#aaa;cursor:not-allowed;}
+.world-btn.completed{outline:3px solid #f1c40f;}
+.easy-w{background:#27ae60;}.medium-w{background:#e67e22;}.hard-w{background:#c0392b;}
+.stars-row{font-size:13px;letter-spacing:2px;margin-top:2px;}
+
+/* TRIVIA */
+#trivia-screen{background:rgba(20,10,40,.88);}
+.panel{background:#fffdf5;border-radius:24px;padding:24px 30px;text-align:center;max-width:500px;width:92%;}
+.panel h2{font-size:22px;color:#c0392b;margin-bottom:8px;}
+.trivia-box{background:#f5f0ff;border-radius:14px;padding:14px 18px;margin-bottom:12px;text-align:left;border-left:4px solid #8e44ad;}
+.trivia-box h3{font-size:14px;color:#6b2fa0;margin-bottom:7px;font-weight:bold;}
+.trivia-box p{font-size:13px;color:#2c3e50;margin:0;line-height:1.5;}
+.trivia-category{display:inline-block;background:#8e44ad;color:#fff;font-size:10px;font-weight:bold;padding:2px 8px;border-radius:8px;margin-bottom:7px;letter-spacing:.5px;}
+.trivia-opts{display:flex;gap:10px;justify-content:center;margin-top:10px;}
+.topt{border:none;border-radius:10px;padding:10px 22px;font-size:14px;font-weight:bold;cursor:pointer;color:#fff;font-family:Georgia,serif;}
 .topt-v{background:#27ae60;}.topt-f{background:#e74c3c;}
 .topt:hover{opacity:.85;}
-.result-stars{font-size:34px;letter-spacing:6px;margin:8px 0 16px;}
-#next-btn,#replay-btn,#menu-btn2{border:none;border-radius:12px;padding:8px 20px;font-size:14px;font-weight:bold;cursor:pointer;color:#fff;margin:4px;}
-#next-btn{background:#27ae60;}#replay-btn{background:#e67e22;}#menu-btn2{background:#7f8c8d;}
+.mc-opts{display:flex;flex-direction:column;gap:8px;margin-top:10px;}
+.mc-btn{border:none;border-radius:10px;padding:10px 16px;font-size:13px;font-weight:bold;cursor:pointer;color:#fff;background:#3b5998;text-align:left;font-family:Georgia,serif;line-height:1.4;}
+.mc-btn:hover{opacity:.85;transform:scale(1.01);}
+.mc-btn.correct{background:#27ae60;}
+.mc-btn.wrong{background:#e74c3c;}
+.double-pts-badge{display:inline-block;background:linear-gradient(135deg,#f1c40f,#e67e22);color:#3b1060;font-size:11px;font-weight:bold;padding:3px 10px;border-radius:10px;margin-bottom:8px;letter-spacing:.5px;}
+.golden-bird-badge{display:inline-block;background:linear-gradient(135deg,#f1c40f,#f39c12);color:#3b1060;font-size:11px;font-weight:bold;padding:3px 10px;border-radius:10px;margin-left:6px;}
+
+/* RESULTADO */
+#result-screen{background:rgba(20,10,40,.88);}
+.result-stars{font-size:32px;letter-spacing:6px;margin:8px 0 14px;}
+#next-btn,#replay-btn,#worlds-btn,#menu-btn2{border:none;border-radius:12px;padding:8px 18px;font-size:13px;font-weight:bold;cursor:pointer;color:#fff;margin:4px;font-family:Georgia,serif;}
+#next-btn{background:#27ae60;}#replay-btn{background:#e67e22;}#worlds-btn{background:#8e44ad;}#menu-btn2{background:#7f8c8d;}
 </style>
 </head><body>
 <canvas id="c"></canvas>
@@ -48,344 +91,418 @@ canvas{display:block;cursor:crosshair;}
   <span id="score">0</span>
   <span id="birds-hud">🐦 x <span id="bcount">0</span></span>
   <span id="level-badge" class="lb-easy">FÁCIL</span>
-  <span id="power-hint">Clic derecho = poder</span>
-  <button id="menu-btn" onclick="showScreen('menu')">☰</button>
+  <span id="world-badge">Mundo 1</span>
+  <span id="power-hint"></span>
+  <button id="menu-btn" onclick="showScreen('worlds')">🗺️</button>
 </div>
 
-<!-- MENU -->
-<div id="menu-screen" class="screen">
-<div class="panel">
-  <h1>🐦 Angry Birds</h1>
-  <p style="margin-bottom:8px;">Poderes especiales por color:</p>
-  <div class="bird-legend">
-    <div class="bl"><b style="color:#c0392b;">🔴 Rojo</b>Dispara 3 pájaros a la vez</div>
-    <div class="bl"><b style="color:#d4a200;">🟡 Amarillo</b>Acelera en vuelo</div>
-    <div class="bl"><b style="color:#2980b9;">🔵 Azul</b>Explota al impacto</div>
-    <div class="bl"><b style="color:#27ae60;">🟢 Verde</b>Bumerán: vuelve</div>
-    <div class="bl"><b style="color:#8e44ad;">🟣 Morado</b>Aplasta todo abajo</div>
+<!-- BIENVENIDA -->
+<div id="welcome-screen" class="screen">
+  <div class="welcome-panel">
+    <div style="font-size:48px;margin-bottom:6px;">🎨🐦</div>
+    <h1>Angry Birds Arte</h1>
+    <div class="subtitle">¡Aprende arte mientras destruyes cerdos!</div>
+    <div class="bird-legend">
+      <div class="bl"><b style="color:#e74c3c;">🔴 Rojo</b>Dispara x3</div>
+      <div class="bl"><b style="color:#F9A825;">🟡 Amarillo</b>Turbo</div>
+      <div class="bl"><b style="color:#2980b9;">🔵 Azul</b>Explosión</div>
+      <div class="bl"><b style="color:#27ae60;">🟢 Verde</b>Bumerán</div>
+      <div class="bl"><b style="color:#c9a0e8;">🟣 Morado</b>Aplasta</div>
+    </div>
+    <div class="hint-txt">Clic derecho = activar poder · Responde trivias de arte para ganar pájaros extra</div>
+    <button class="start-btn" onclick="showScreen('levels')">🎯 ¡Jugar!</button>
+    <div class="art-deco">✦ 3 niveles · 7 mundos cada uno · 21 mundos en total ✦</div>
   </div>
-  <p>Activa el poder con <b>clic derecho</b> (o toque doble) mientras vuela.</p>
-  <div class="lvl-btns">
-    <button class="lvl-btn btn-easy"   onclick="startGame('easy')">😊 Fácil<small>3 cerdos · 5 pájaros<br>Trivias de datos curiosos</small></button>
-    <button class="lvl-btn btn-medium" onclick="startGame('medium')">😤 Medio<small>5 cerdos · 7 pájaros<br>Gana pájaros con V/F</small></button>
-    <button class="lvl-btn btn-hard"   onclick="startGame('hard')">💀 Difícil<small>7 cerdos · 9 pájaros<br>Gana pájaros con V/F</small></button>
-  </div>
-</div>
 </div>
 
-<!-- TRIVIA POPUP -->
+<!-- SELECCIÓN DE NIVEL -->
+<div id="levels-screen" class="screen off">
+  <div class="levels-panel">
+    <div style="font-size:28px;margin-bottom:4px;">🖼️</div>
+    <h2>Elige dificultad</h2>
+    <p>Cada nivel tiene 7 mundos con estructuras únicas.<br>Completa uno para desbloquear el siguiente.</p>
+    <div class="lvl-btns">
+      <button class="lvl-btn btn-easy" onclick="selectLevel('easy')">🌿 Fácil<small>3 cerdos · datos curiosos<br>cada 3 lanzamientos</small></button>
+      <button class="lvl-btn btn-medium" onclick="selectLevel('medium')">🎭 Medio<small>5 cerdos · V/F + selección múltiple<br>puntos dobles + pájaro dorado</small></button>
+      <button class="lvl-btn btn-hard" onclick="selectLevel('hard')">🔥 Difícil<small>7 cerdos · selección múltiple<br>puntos dobles + pájaro dorado</small></button>
+    </div>
+    <div class="back-link" onclick="showScreen('welcome')">← Volver</div>
+  </div>
+</div>
+
+<!-- SELECCIÓN DE MUNDO -->
+<div id="worlds-screen" class="screen off">
+  <div class="worlds-panel">
+    <div id="worlds-title" style="font-size:22px;font-weight:bold;color:#6b2fa0;margin-bottom:2px;"></div>
+    <div class="wsubtitle" id="worlds-subtitle"></div>
+    <div class="worlds-grid" id="worlds-grid"></div>
+    <div class="back-link" onclick="showScreen('levels')">← Cambiar dificultad</div>
+  </div>
+</div>
+
+<!-- TRIVIA -->
 <div id="trivia-screen" class="screen off">
 <div class="panel">
   <div class="trivia-box">
+    <span class="trivia-category" id="trivia-cat">ARTE</span>
     <h3 id="trivia-title">¿Sabías que...?</h3>
     <p id="trivia-q"></p>
   </div>
   <div id="trivia-opts-wrap"></div>
-  <p id="trivia-feedback" style="font-weight:bold;font-size:14px;min-height:20px;color:#27ae60;"></p>
-  <button id="trivia-close" onclick="closeTrivia()" style="display:none;background:#27ae60;color:#fff;border:none;border-radius:12px;padding:8px 22px;font-size:14px;cursor:pointer;font-weight:bold;margin-top:10px;">¡Continuar!</button>
+  <p id="trivia-feedback" style="font-weight:bold;font-size:13px;min-height:18px;color:#27ae60;margin-top:8px;line-height:1.5;"></p>
+  <button id="trivia-close" onclick="closeTrivia()" style="display:none;background:#8e44ad;color:#fff;border:none;border-radius:12px;padding:8px 20px;font-size:13px;cursor:pointer;font-weight:bold;margin-top:10px;font-family:Georgia,serif;">¡Continuar!</button>
 </div>
 </div>
 
-<!-- RESULT -->
+<!-- RESULTADO -->
 <div id="result-screen" class="screen off">
 <div class="panel">
   <h2 id="result-title">¡Ganaste!</h2>
   <div class="result-stars" id="result-stars">⭐⭐⭐</div>
-  <p id="result-text"></p>
-  <button id="next-btn"   onclick="goNext()">▶ Siguiente nivel</button>
-  <button id="replay-btn" onclick="startGame(currentLevel)">↺ Repetir</button>
-  <button id="menu-btn2"  onclick="showScreen('menu')">☰ Menú</button>
+  <p id="result-text" style="font-size:14px;color:#5a3a10;margin-bottom:12px;"></p>
+  <button id="next-btn"   onclick="goNext()">▶ Siguiente mundo</button>
+  <button id="replay-btn" onclick="replayWorld()">↺ Repetir</button>
+  <button id="worlds-btn" onclick="showScreen('worlds')">🗺️ Mundos</button>
+  <button id="menu-btn2"  onclick="showScreen('levels')">☰ Niveles</button>
 </div>
 </div>
 
 <script>
 const canvas=document.getElementById('c');
 const ctx=canvas.getContext('2d');
-canvas.width=window.innerWidth; canvas.height=window.innerHeight;
+canvas.width=window.innerWidth;canvas.height=window.innerHeight;
 const W=canvas.width,H=canvas.height;
+const POWER_MUL=0.22,MAX_PULL=118,GRAV=0.28,BOUNCE=0.22;
 
-const POWER_MUL=0.40, MAX_PULL=118, GRAV=0.34, BOUNCE=0.25;
 let score=0,pigs=[],blocks=[],projectile=null;
 let dragging=false,dragCurrent=null,slingPos={x:148,y:H-162};
 let launched=false,gameOver=false,particles=[],birdQueue=[];
-let currentLevel='easy',triviaQueue=[],triviaCallback=null;
-let powerUsed=false;
-let clones=[];
+let currentLevel='easy',currentWorld=0;
+let powerUsed=false,clones=[],birdsLaunched=0,triviaShownCount=0,pendingTrivia=null;
+let doublePointsActive=false;
 
-// ── TRIVIA DATA ─────────────────────────────────────────────────────
+// Progreso: {easy:[0..6 estrellas o null], medium:[], hard:[]}
+let progress={easy:Array(7).fill(null),medium:Array(7).fill(null),hard:Array(7).fill(null)};
+try{let s=localStorage.getItem('ab_art_progress');if(s)progress=JSON.parse(s);}catch(e){}
+function saveProgress(){try{localStorage.setItem('ab_art_progress',JSON.stringify(progress));}catch(e){}}
+
+// ── TRIVIAS ───────────────────────────────────────────────────────────
 const TRIVIAS_EASY=[
-  {q:"Los pulpos tienen tres corazones.",fact:true,info:"¡Correcto! Dos bombean sangre a las branquias y uno al resto del cuerpo."},
-  {q:"La miel nunca caduca. Se han encontrado muestras de 3000 años comestibles.",fact:true,info:"La baja humedad y el peróxido de hidrógeno la conservan indefinidamente."},
-  {q:"Los delfines duermen con los dos ojos cerrados.",fact:false,info:"Los delfines duermen con un ojo abierto: cada mitad del cerebro descansa por turno."},
-  {q:"Un grupo de flamencos se llama flamboyance.",fact:true,info:"¡Así es! Un 'flamboyance' de flamencos. Muy apropiado por su color vistoso."},
-  {q:"Saturno es el único planeta con anillos.",fact:false,info:"Júpiter, Urano y Neptuno también tienen anillos, aunque menos visibles."},
-  {q:"Los caracoles pueden dormir durante 3 años.",fact:true,info:"En condiciones de sequía extrema, los caracoles entran en un letargo prolongado."},
-  {q:"El corazón de una ballena azul pesa cerca de 180 kg.",fact:true,info:"Es tan grande que un humano podría arrastrarse por sus arterias."},
-  {q:"Los gatos siempre caen de pie sin importar la altura.",fact:false,info:"Los gatos tienen reflejo de orientación, pero caídas muy bajas o muy altas sí pueden hacerles daño."},
+  {cat:'TEORÍA DEL COLOR',q:'El círculo cromático fue creado por Isaac Newton en 1666 al pasar luz blanca por un prisma.',info:'Newton identificó 7 colores: rojo, naranja, amarillo, verde, azul, índigo y violeta, sentando las bases de la teoría del color.'},
+  {cat:'TEORÍA DEL COLOR',q:'Los colores primarios en pintura son rojo, amarillo y azul, pero en luz son rojo, verde y azul.',info:'Esta diferencia existe porque la mezcla de pigmentos (sustractiva) funciona distinto a la mezcla de luz (aditiva).'},
+  {cat:'TEORÍA DEL COLOR',q:'Los colores complementarios se ubican exactamente opuestos en el círculo cromático.',info:'Pares como rojo-verde o azul-naranja generan máximo contraste visual al colocarse juntos.'},
+  {cat:'LÍNEAS Y CURVAS',q:'Las líneas diagonales en una composición transmiten movimiento y dinamismo.',info:'Las horizontales evocan calma, las verticales fuerza y estabilidad, y las diagonales acción y tensión visual.'},
+  {cat:'LÍNEAS Y CURVAS',q:'Las curvas en el arte se asocian con suavidad y naturaleza desde el Barroco.',info:'Los artistas barrocos como Rubens usaron curvas abundantes para representar figuras llenas de vida y movimiento.'},
+  {cat:'PINTURAS',q:'La Mona Lisa de Leonardo da Vinci mide apenas 77 × 53 cm, mucho más pequeña de lo que la gente imagina.',info:'Está pintada en madera de álamo y se exhibe en el Louvre, París, protegida por vidrio blindado.'},
+  {cat:'PINTURAS',q:'Van Gogh vendió solo un cuadro en vida: "El viñedo rojo", en 1890, por 400 francos belgas.',info:'Hoy sus obras se venden por cientos de millones de dólares. "Noche estrellada" es una de las pinturas más famosas del mundo.'},
+  {cat:'MUSEOS',q:'El Museo del Louvre en París es el museo más visitado del mundo, con más de 9 millones de visitantes al año.',info:'Fue fortaleza medieval antes de convertirse en palacio real y finalmente en museo en 1793.'},
+  {cat:'HISTORIA DEL ARTE',q:'El Renacimiento comenzó en Italia en el siglo XIV como un redescubrimiento del arte de la Antigua Grecia y Roma.',info:'Da Vinci, Miguel Ángel y Rafael son los grandes maestros de este periodo que transformó el arte occidental.'},
+  {cat:'HISTORIA DEL ARTE',q:'El movimiento impresionista recibió su nombre de manera burlona, inspirado en "Impresión, sol naciente" de Monet.',info:'Lo que comenzó como un insulto se convirtió en el nombre de uno de los movimientos más importantes del arte.'},
+  {cat:'TEORÍA DEL COLOR',q:'Johannes Itten fue un teórico fundamental del color en la escuela Bauhaus.',info:'Itten desarrolló el "contraste simultáneo" y otras teorías que siguen siendo base de la educación artística moderna.'},
+  {cat:'MUSEOS',q:'El Museo del Prado en Madrid alberga obras de Velázquez, Goya, El Bosco y Rubens.',info:'El Prado abrió sus puertas en 1819 y es considerado uno de los museos de arte europeo más importantes del mundo.'},
 ];
 const TRIVIAS_VF=[
-  {q:"¿Verdadero o Falso? La Gran Muralla China se ve desde el espacio a simple vista.",fact:false,info:"Es un mito popular. Es demasiado delgada para verse desde el espacio sin ayuda óptica."},
-  {q:"¿Verdadero o Falso? Los humanos y los chimpancés comparten el 98.7% del ADN.",fact:true,info:"¡Correcto! Somos los primates más cercanos genéticamente a los chimpancés."},
-  {q:"¿Verdadero o Falso? El agua hervida se congela más rápido que el agua fría.",fact:true,info:"Es el efecto Mpemba, documentado aunque su causa exacta sigue debatiéndose."},
-  {q:"¿Verdadero o Falso? Los rayos nunca caen dos veces en el mismo lugar.",fact:false,info:"Los rayos caen en el mismo lugar frecuentemente, especialmente en estructuras altas."},
-  {q:"¿Verdadero o Falso? Venus es el planeta más caliente del sistema solar.",fact:true,info:"A 465°C promedio, supera a Mercurio por su efecto invernadero extremo."},
-  {q:"¿Verdadero o Falso? Los humanos usan solo el 10% del cerebro.",fact:false,info:"Usamos prácticamente todo el cerebro; distintas regiones se activan para distintas tareas."},
-  {q:"¿Verdadero o Falso? La velocidad de la luz en el vacío es de 300 000 km/s.",fact:true,info:"Exactamente 299 792 km/s, constante fundamental del universo."},
-  {q:"¿Verdadero o Falso? Los canguros pueden saltar hacia atrás.",fact:false,info:"La estructura de sus piernas les impide saltar hacia atrás, lo que los hace vulnerables si se les acorrala."},
+  {cat:'TEORÍA DEL COLOR',q:'El negro y el blanco se consideran colores en la teoría del color tradicional de pintura.',fact:false,info:'En teoría del color, el negro y el blanco son valores tonales, no colores. El negro es ausencia de luz y el blanco la suma de todos los colores de luz.'},
+  {cat:'TEORÍA DEL COLOR',q:'Los colores cálidos (rojo, naranja, amarillo) tienden a "avanzar" visualmente hacia el espectador.',fact:true,info:'Este efecto se usa en composición para destacar elementos, mientras que los colores fríos retroceden visualmente.'},
+  {cat:'TEORÍA DEL COLOR',q:'El color naranja se obtiene mezclando rojo con azul.',fact:false,info:'El naranja se obtiene mezclando rojo con amarillo. La mezcla de rojo con azul produce morado o violeta.'},
+  {cat:'LÍNEAS Y CURVAS',q:'Las líneas orgánicas o curvas son características del estilo Art Nouveau.',fact:true,info:'El Art Nouveau (1890–1910) se caracterizó por formas inspiradas en la naturaleza: flores, plantas y líneas ondulantes y fluidas.'},
+  {cat:'LÍNEAS Y CURVAS',q:'La espiral áurea está relacionada con la proporción áurea (1.618...).',fact:true,info:'La espiral áurea aparece en la naturaleza y fue usada conscientemente por artistas del Renacimiento como herramienta compositiva.'},
+  {cat:'LÍNEAS Y CURVAS',q:'Piet Mondrian usaba principalmente líneas curvas y orgánicas en sus obras.',fact:false,info:'Mondrian, fundador del Neoplasticismo, usaba exclusivamente líneas rectas horizontales y verticales con colores primarios.'},
+  {cat:'PINTURAS',q:'El Guernica de Picasso fue pintado en blanco, negro y gris como protesta por el bombardeo de esa ciudad vasca.',fact:true,info:'Picasso pintó el Guernica en 1937. La ausencia de color intensifica el drama y el luto.'},
+  {cat:'PINTURAS',q:'Miguel Ángel pintó el techo de la Capilla Sixtina solo, acostado boca arriba.',fact:false,info:'Miguel Ángel sí pintó el techo, pero con ayudantes y usando andamios en posición inclinada, no boca arriba como el mito indica.'},
+  {cat:'PINTURAS',q:'"Las Meninas" fue pintada por Diego Velázquez en el siglo XVII en España.',fact:true,info:'Pintada en 1656, es considerada una de las obras más enigmáticas del arte occidental por su compleja perspectiva.'},
+  {cat:'PINTURAS',q:'Salvador Dalí era un pintor impresionista famoso por sus pinturas de girasoles.',fact:false,info:'Dalí fue el principal exponente del Surrealismo. Las pinturas de girasoles son obra de Van Gogh.'},
+  {cat:'MUSEOS',q:'El MoMA (Museum of Modern Art) se encuentra en Los Ángeles, California.',fact:false,info:'El MoMA está en Nueva York. Fundado en 1929, alberga obras de Picasso, Warhol, Pollock y Frida Kahlo.'},
+  {cat:'MUSEOS',q:'El Museo del Hermitage en San Petersburgo tiene más de 3 millones de obras en su colección.',fact:true,info:'El Hermitage es uno de los museos más grandes del mundo. Para ver todas sus obras un minuto cada una, necesitarías varios años.'},
+  {cat:'MUSEOS',q:'El Guggenheim de Bilbao, diseñado por Frank Gehry, fue inaugurado en 1997.',fact:true,info:'Su arquitectura de titanio ondulante revolucionó el diseño de museos y se convirtió en símbolo de la regeneración urbana de Bilbao.'},
+  {cat:'HISTORIA DEL ARTE',q:'El Barroco fue un movimiento artístico del siglo XVII caracterizado por el drama y el movimiento.',fact:true,info:'El Barroco nació en Roma hacia 1600. Caravaggio, Bernini y Velázquez son algunos de sus grandes maestros.'},
+  {cat:'HISTORIA DEL ARTE',q:'Andy Warhol fue el principal representante del Pop Art.',fact:true,info:'Warhol transformó la publicidad y cultura popular en arte. Sus latas de sopa Campbell y retratos de Marilyn son íconos del Pop Art.'},
+  {cat:'HISTORIA DEL ARTE',q:'El Cubismo fue inventado por Henri Matisse y Georges Braque.',fact:false,info:'El Cubismo fue desarrollado por Pablo Picasso y Georges Braque. Matisse fue el líder del Fauvismo.'},
+  {cat:'HISTORIA DEL ARTE',q:'Frida Kahlo es conocida principalmente por sus autorretratos que mezclan realidad y fantasía.',fact:true,info:'Kahlo pintó 55 autorretratos. Su arte mezcla simbolismo personal, cultura mexicana y elementos surrealistas.'},
+  {cat:'HISTORIA DEL ARTE',q:'El movimiento Dadá surgió como respuesta al horror de la Primera Guerra Mundial.',fact:true,info:'Dadá (1916) rechazó la lógica y la razón. Marcel Duchamp propuso el anti-arte como forma de protesta.'},
+  {cat:'HISTORIA DEL ARTE',q:'Leonardo da Vinci era exclusivamente pintor y no tenía interés en la ciencia.',fact:false,info:'Da Vinci fue un genio polímata: pintó, esculpió, estudió anatomía, ingeniería, arquitectura y música.'},
+  {cat:'PINTURAS',q:'El "Retrato de Adele Bloch-Bauer" de Gustav Klimt fue vendido en 2006 por 135 millones de dólares.',fact:true,info:'Conocida como "La Dama de Oro", Klimt usó pan de oro real en la obra. Fue la pintura más cara de la historia en ese momento.'},
 ];
 
 function shuffle(a){let b=[...a];for(let i=b.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
 
-// ── LEVEL CONFIGS ────────────────────────────────────────────────────
-const LEVELS={
-  easy:{
-    label:'FÁCIL',cls:'lb-easy',
-    birds:['red','yellow','blue','green','purple'],       // base 5
-    pigHp:1,
-    triviaType:'easy',triviaEvery:1,
-    layout(gy){return{
-      pigs:[{x:W*.60,y:gy-30,r:28},{x:W*.73,y:gy-30,r:28},{x:W*.86,y:gy-28,r:24}],
-      blocks:[
-        {x:W*.555,y:gy-80,w:18,h:80,type:'wood',hp:2},
-        {x:W*.655,y:gy-80,w:18,h:80,type:'wood',hp:2},
-        {x:W*.555,y:gy-98,w:W*.118,h:18,type:'wood',hp:1},
-        {x:W*.695,y:gy-80,w:18,h:80,type:'wood',hp:2},
-        {x:W*.795,y:gy-80,w:18,h:80,type:'wood',hp:2},
-        {x:W*.695,y:gy-98,w:W*.118,h:18,type:'wood',hp:1},
-        {x:W*.83,y:gy-65,w:14,h:65,type:'wood',hp:1},
-        {x:W*.895,y:gy-65,w:14,h:65,type:'wood',hp:1},
-        {x:W*.83,y:gy-81,w:W*.079,h:16,type:'glass',hp:1},
-      ]
-    };}
-  },
-  medium:{
-    label:'MEDIO',cls:'lb-medium',
-    birds:['red','yellow','blue','green','purple','red','yellow'], // base 7
-    pigHp:2,
-    triviaType:'vf',triviaEvery:2,
-    layout(gy){return{
-      pigs:[
-        {x:W*.59,y:gy-32,r:28},{x:W*.69,y:gy-32,r:28},
-        {x:W*.64,y:gy-108,r:25},{x:W*.82,y:gy-30,r:26},{x:W*.91,y:gy-108,r:24}
-      ],
-      blocks:[
-        {x:W*.553,y:gy-82,w:18,h:82,type:'wood',hp:2},
-        {x:W*.733,y:gy-82,w:18,h:82,type:'wood',hp:2},
-        {x:W*.553,y:gy-100,w:W*.198,h:18,type:'stone',hp:3},
-        {x:W*.608,y:gy-152,w:18,h:52,type:'wood',hp:2},
-        {x:W*.678,y:gy-152,w:18,h:52,type:'wood',hp:2},
-        {x:W*.608,y:gy-170,w:W*.088,h:18,type:'glass',hp:1},
-        {x:W*.775,y:gy-62,w:14,h:62,type:'stone',hp:3},
-        {x:W*.855,y:gy-62,w:14,h:62,type:'stone',hp:3},
-        {x:W*.775,y:gy-78,w:W*.094,h:16,type:'wood',hp:2},
-        {x:W*.858,y:gy-140,w:14,h:62,type:'stone',hp:2},
-        {x:W*.928,y:gy-140,w:14,h:62,type:'stone',hp:2},
-        {x:W*.858,y:gy-156,w:W*.084,h:16,type:'glass',hp:1},
-      ]
-    };}
-  },
-  hard:{
-    label:'DIFÍCIL',cls:'lb-hard',
-    birds:['red','yellow','blue','green','purple','red','yellow','blue','green'], // base 9
-    pigHp:3,
-    triviaType:'vf',triviaEvery:3,
-    layout(gy){return{
-      pigs:[
-        {x:W*.565,y:gy-32,r:26},{x:W*.648,y:gy-32,r:26},
-        {x:W*.606,y:gy-106,r:24},{x:W*.606,y:gy-178,r:22},
-        {x:W*.760,y:gy-32,r:26},{x:W*.850,y:gy-32,r:26},
-        {x:W*.805,y:gy-106,r:24}
-      ],
-      blocks:[
-        {x:W*.533,y:gy-82,w:14,h:82,type:'stone',hp:3},
-        {x:W*.683,y:gy-82,w:14,h:82,type:'stone',hp:3},
-        {x:W*.533,y:gy-100,w:W*.164,h:18,type:'stone',hp:3},
-        {x:W*.568,y:gy-150,w:14,h:50,type:'wood',hp:2},
-        {x:W*.648,y:gy-150,w:14,h:50,type:'wood',hp:2},
-        {x:W*.568,y:gy-168,w:W*.094,h:18,type:'stone',hp:2},
-        {x:W*.585,y:gy-216,w:14,h:48,type:'wood',hp:2},
-        {x:W*.635,y:gy-216,w:14,h:48,type:'wood',hp:2},
-        {x:W*.585,y:gy-234,w:W*.064,h:16,type:'glass',hp:1},
-        {x:W*.728,y:gy-82,w:14,h:82,type:'stone',hp:3},
-        {x:W*.898,y:gy-82,w:14,h:82,type:'stone',hp:3},
-        {x:W*.728,y:gy-100,w:W*.184,h:18,type:'stone',hp:3},
-        {x:W*.757,y:gy-150,w:14,h:50,type:'wood',hp:2},
-        {x:W*.877,y:gy-150,w:14,h:50,type:'wood',hp:2},
-        {x:W*.757,y:gy-168,w:W*.134,h:18,type:'glass',hp:1},
-      ]
-    };}
-  }
-};
+// Preguntas de selección múltiple (medio y difícil) — premio: puntos dobles + pájaro dorado
+const TRIVIAS_MC=[
+  {cat:'PINTURAS',q:'¿En qué año pintó Picasso el Guernica?',opts:['1932','1937','1945','1952'],ans:1,info:'Picasso pintó el Guernica en 1937 como respuesta al bombardeo nazi de esa ciudad vasca durante la Guerra Civil Española.'},
+  {cat:'HISTORIA DEL ARTE',q:'¿Cuál de estos artistas NO pertenece al movimiento impresionista?',opts:['Claude Monet','Edgar Degas','Salvador Dalí','Pierre-Auguste Renoir'],ans:2,info:'Dalí pertenece al Surrealismo. Monet, Degas y Renoir son los pilares del Impresionismo francés del siglo XIX.'},
+  {cat:'MUSEOS',q:'¿En qué ciudad se encuentra el Museo del Prado?',opts:['Barcelona','Lisboa','Madrid','Sevilla'],ans:2,info:'El Museo del Prado está en Madrid. Fue fundado en 1819 y alberga la colección de arte europeo más importante de España.'},
+  {cat:'TEORÍA DEL COLOR',q:'¿Qué colores forman la tríada primaria en la mezcla de luz (RGB)?',opts:['Rojo, azul, amarillo','Rojo, verde, azul','Cian, magenta, amarillo','Naranja, verde, violeta'],ans:1,info:'En luz (modelo aditivo) los primarios son Rojo, Verde y Azul (RGB). En pintura (modelo sustractivo) son Rojo, Amarillo y Azul.'},
+  {cat:'HISTORIA DEL ARTE',q:'¿Quién pintó "La noche estrellada"?',opts:['Paul Gauguin','Claude Monet','Vincent van Gogh','Édouard Manet'],ans:2,info:'Van Gogh pintó "La noche estrellada" en 1889 desde su habitación en el asilo de Saint-Paul-de-Mausole en Saint-Rémy-de-Provence.'},
+  {cat:'PINTURAS',q:'¿Qué técnica usó Miguel Ángel para pintar la Capilla Sixtina?',opts:['Óleo sobre lienzo','Acuarela','Fresco','Temple sobre tabla'],ans:2,info:'Miguel Ángel usó la técnica del fresco: pintó sobre yeso húmedo para que los pigmentos se integraran a la pared al secarse.'},
+  {cat:'MUSEOS',q:'¿Cuántas obras aproximadamente tiene el Museo del Hermitage?',opts:['500 000','1 millón','3 millones','10 millones'],ans:2,info:'El Hermitage en San Petersburgo tiene más de 3 millones de obras. Para ver cada una un minuto necesitarías varios años.'},
+  {cat:'LÍNEAS Y CURVAS',q:'¿Cómo se llama la curva matemática que aparece en conchas de nautilus y fue muy usada en arte renacentista?',opts:['Espiral de Fibonacci','Espiral áurea','Parábola de Newton','Curva de Bézier'],ans:1,info:'La espiral áurea se basa en la proporción áurea (1.618...) y aparece en la naturaleza. Los artistas renacentistas la usaron como herramienta compositiva.'},
+  {cat:'HISTORIA DEL ARTE',q:'¿Cuál fue el primer movimiento artístico completamente abstracto del siglo XX?',opts:['Cubismo','Fauvismo','Constructivismo ruso','Neoplasticismo'],ans:3,info:'El Neoplasticismo de Mondrian y Theo van Doesburg, junto con el Constructivismo ruso, son considerados los primeros movimientos 100% abstractos.'},
+  {cat:'TEORÍA DEL COLOR',q:'¿Cómo se llama el efecto visual donde dos colores complementarios juntos parecen vibrar o brillar más?',opts:['Contraste simultáneo','Síntesis aditiva','Valor tonal','Saturación cromática'],ans:0,info:'El contraste simultáneo, descrito por Chevreul y estudiado por Itten en la Bauhaus, es el fenómeno por el que colores complementarios intensifican su brillo mutuamente.'},
+  {cat:'PINTURAS',q:'¿Qué pintura de Edvard Munch muestra una figura con la boca abierta en un paisaje ondulante?',opts:['La melancolía','El beso','El grito','La danza de la vida'],ans:2,info:'"El grito" (1893) de Munch es una de las imágenes más reconocibles del arte moderno. El artista noruego dijo haberse inspirado en una experiencia personal de angustia.'},
+  {cat:'HISTORIA DEL ARTE',q:'¿Cuál de estos movimientos surgió como reacción contra el arte convencional durante la Primera Guerra Mundial?',opts:['Art Nouveau','Bauhaus','Dadaísmo','Minimalismo'],ans:2,info:'El Dadaísmo surgió en Zúrich en 1916 como protesta contra la guerra y los valores burgueses. Marcel Duchamp y Tristan Tzara fueron sus figuras clave.'},
+];
 
-// ── PARTICLES ─────────────────────────────────────────────────────────
+// ── DEFINICIÓN DE MUNDOS ──────────────────────────────────────────────
+// Cada nivel tiene 7 mundos con distintas estructuras, cantidad de cerdos y pájaros
+function getWorldConfig(level,world){
+  const gy=H-80;
+  // Escala de dificultad por mundo dentro de cada nivel
+  const worldScale=[
+    {pigMult:1,birdBonus:0,blockMult:1},   // mundo 1
+    {pigMult:1,birdBonus:0,blockMult:1.1}, // mundo 2
+    {pigMult:1,birdBonus:1,blockMult:1.2}, // mundo 3
+    {pigMult:1,birdBonus:1,blockMult:1.3}, // mundo 4
+    {pigMult:2,birdBonus:1,blockMult:1.4}, // mundo 5
+    {pigMult:2,birdBonus:2,blockMult:1.5}, // mundo 6
+    {pigMult:2,birdBonus:2,blockMult:1.6}, // mundo 7
+  ];
+
+  // 7 layouts distintos (variados en estructura)
+  const layouts=[
+    // Mundo 1 — torres simples
+    ()=>({
+      pigs:[{x:W*.62,y:gy-28,r:26},{x:W*.78,y:gy-28,r:26},{x:W*.70,y:gy-28,r:26}],
+      blocks:[
+        {x:W*.585,y:gy-75,w:16,h:75,type:'wood',hp:2},{x:W*.660,y:gy-75,w:16,h:75,type:'wood',hp:2},
+        {x:W*.585,y:gy-91,w:W*.091,h:16,type:'wood',hp:1},
+        {x:W*.755,y:gy-75,w:16,h:75,type:'wood',hp:2},{x:W*.830,y:gy-75,w:16,h:75,type:'wood',hp:2},
+        {x:W*.755,y:gy-91,w:W*.091,h:16,type:'wood',hp:1},
+        {x:W*.670,y:gy-60,w:16,h:60,type:'wood',hp:1},{x:W*.730,y:gy-60,w:16,h:60,type:'wood',hp:1},
+        {x:W*.670,y:gy-76,w:W*.076,h:16,type:'glass',hp:1},
+      ]
+    }),
+    // Mundo 2 — pirámide
+    ()=>({
+      pigs:[{x:W*.63,y:gy-28,r:25},{x:W*.73,y:gy-28,r:25},{x:W*.83,y:gy-28,r:25}],
+      blocks:[
+        {x:W*.600,y:gy-70,w:14,h:70,type:'wood',hp:2},{x:W*.660,y:gy-70,w:14,h:70,type:'wood',hp:2},
+        {x:W*.600,y:gy-86,w:W*.074,h:16,type:'stone',hp:2},
+        {x:W*.700,y:gy-70,w:14,h:70,type:'wood',hp:2},{x:W*.760,y:gy-70,w:14,h:70,type:'wood',hp:2},
+        {x:W*.700,y:gy-86,w:W*.074,h:16,type:'stone',hp:2},
+        {x:W*.800,y:gy-70,w:14,h:70,type:'wood',hp:2},{x:W*.860,y:gy-70,w:14,h:70,type:'wood',hp:2},
+        {x:W*.800,y:gy-86,w:W*.074,h:16,type:'stone',hp:2},
+        {x:W*.625,y:gy-130,w:14,h:44,type:'wood',hp:1},{x:W*.685,y:gy-130,w:14,h:44,type:'wood',hp:1},
+        {x:W*.625,y:gy-146,w:W*.074,h:16,type:'glass',hp:1},
+      ]
+    }),
+    // Mundo 3 — castillo con foso
+    ()=>({
+      pigs:[{x:W*.60,y:gy-28,r:26},{x:W*.72,y:gy-102,r:24},{x:W*.84,y:gy-28,r:26}],
+      blocks:[
+        {x:W*.570,y:gy-78,w:16,h:78,type:'stone',hp:3},{x:W*.650,y:gy-78,w:16,h:78,type:'stone',hp:3},
+        {x:W*.570,y:gy-94,w:W*.096,h:16,type:'stone',hp:2},
+        {x:W*.660,y:gy-130,w:16,h:52,type:'wood',hp:2},{x:W*.770,y:gy-130,w:16,h:52,type:'wood',hp:2},
+        {x:W*.660,y:gy-146,w:W*.126,h:16,type:'stone',hp:3},
+        {x:W*.810,y:gy-78,w:16,h:78,type:'stone',hp:3},{x:W*.880,y:gy-78,w:16,h:78,type:'stone',hp:3},
+        {x:W*.810,y:gy-94,w:W*.086,h:16,type:'stone',hp:2},
+      ]
+    }),
+    // Mundo 4 — zigzag
+    ()=>({
+      pigs:[{x:W*.60,y:gy-28,r:25},{x:W*.70,y:gy-108,r:24},{x:W*.80,y:gy-28,r:25},{x:W*.90,y:gy-108,r:24}],
+      blocks:[
+        {x:W*.572,y:gy-78,w:14,h:78,type:'wood',hp:2},{x:W*.642,y:gy-78,w:14,h:78,type:'wood',hp:2},
+        {x:W*.572,y:gy-94,w:W*.084,h:16,type:'glass',hp:1},
+        {x:W*.612,y:gy-142,w:14,h:48,type:'stone',hp:2},{x:W*.752,y:gy-142,w:14,h:48,type:'stone',hp:2},
+        {x:W*.612,y:gy-158,w:W*.154,h:16,type:'wood',hp:2},
+        {x:W*.762,y:gy-78,w:14,h:78,type:'wood',hp:2},{x:W*.832,y:gy-78,w:14,h:78,type:'wood',hp:2},
+        {x:W*.762,y:gy-94,w:W*.084,h:16,type:'glass',hp:1},
+        {x:W*.832,y:gy-142,w:14,h:48,type:'stone',hp:2},{x:W*.902,y:gy-142,w:14,h:48,type:'stone',hp:2},
+        {x:W*.832,y:gy-158,w:W*.084,h:16,type:'wood',hp:1},
+      ]
+    }),
+    // Mundo 5 — torre alta central
+    ()=>({
+      pigs:[{x:W*.62,y:gy-28,r:26},{x:W*.75,y:gy-178,r:22},{x:W*.88,y:gy-28,r:26},{x:W*.75,y:gy-28,r:26}],
+      blocks:[
+        {x:W*.590,y:gy-78,w:14,h:78,type:'stone',hp:3},{x:W*.660,y:gy-78,w:14,h:78,type:'stone',hp:3},
+        {x:W*.590,y:gy-94,w:W*.084,h:16,type:'stone',hp:3},
+        {x:W*.710,y:gy-78,w:14,h:78,type:'stone',hp:3},{x:W*.800,y:gy-78,w:14,h:78,type:'stone',hp:3},
+        {x:W*.710,y:gy-94,w:W*.104,h:16,type:'stone',hp:3},
+        {x:W*.725,y:gy-142,w:14,h:48,type:'wood',hp:2},{x:W*.785,y:gy-142,w:14,h:48,type:'wood',hp:2},
+        {x:W*.725,y:gy-158,w:W*.074,h:16,type:'stone',hp:2},
+        {x:W*.738,y:gy-200,w:14,h:42,type:'wood',hp:2},{x:W*.773,y:gy-200,w:14,h:42,type:'wood',hp:2},
+        {x:W*.738,y:gy-216,w:W*.049,h:16,type:'glass',hp:1},
+        {x:W*.850,y:gy-78,w:14,h:78,type:'stone',hp:3},{x:W*.910,y:gy-78,w:14,h:78,type:'stone',hp:3},
+        {x:W*.850,y:gy-94,w:W*.074,h:16,type:'stone',hp:2},
+      ]
+    }),
+    // Mundo 6 — fortaleza doble
+    ()=>({
+      pigs:[{x:W*.58,y:gy-28,r:24},{x:W*.64,y:gy-108,r:22},{x:W*.75,y:gy-28,r:24},{x:W*.86,y:gy-108,r:22},{x:W*.92,y:gy-28,r:24}],
+      blocks:[
+        {x:W*.552,y:gy-78,w:12,h:78,type:'stone',hp:3},{x:W*.622,y:gy-78,w:12,h:78,type:'stone',hp:3},
+        {x:W*.552,y:gy-94,w:W*.082,h:14,type:'stone',hp:3},
+        {x:W*.582,y:gy-142,w:12,h:48,type:'stone',hp:2},{x:W*.652,y:gy-142,w:12,h:48,type:'stone',hp:2},
+        {x:W*.582,y:gy-156,w:W*.082,h:14,type:'glass',hp:1},
+        {x:W*.720,y:gy-78,w:12,h:78,type:'stone',hp:3},{x:W*.790,y:gy-78,w:12,h:78,type:'stone',hp:3},
+        {x:W*.720,y:gy-94,w:W*.082,h:14,type:'stone',hp:3},
+        {x:W*.832,y:gy-142,w:12,h:48,type:'stone',hp:2},{x:W*.902,y:gy-142,w:12,h:48,type:'stone',hp:2},
+        {x:W*.832,y:gy-156,w:W*.082,h:14,type:'glass',hp:1},
+        {x:W*.886,y:gy-78,w:12,h:78,type:'stone',hp:3},{x:W*.946,y:gy-78,w:12,h:78,type:'stone',hp:3},
+        {x:W*.886,y:gy-94,w:W*.072,h:14,type:'stone',hp:2},
+      ]
+    }),
+    // Mundo 7 — mega fortaleza
+    ()=>({
+      pigs:[{x:W*.575,y:gy-28,r:24},{x:W*.635,y:gy-28,r:24},{x:W*.605,y:gy-102,r:22},{x:W*.770,y:gy-28,r:24},{x:W*.830,y:gy-28,r:24},{x:W*.800,y:gy-102,r:22},{x:W*.800,y:gy-172,r:20}],
+      blocks:[
+        {x:W*.545,y:gy-78,w:12,h:78,type:'stone',hp:4},{x:W*.665,y:gy-78,w:12,h:78,type:'stone',hp:4},
+        {x:W*.545,y:gy-94,w:W*.132,h:14,type:'stone',hp:4},
+        {x:W*.570,y:gy-142,w:12,h:48,type:'stone',hp:3},{x:W*.645,y:gy-142,w:12,h:48,type:'stone',hp:3},
+        {x:W*.570,y:gy-156,w:W*.087,h:14,type:'stone',hp:2},
+        {x:W*.740,y:gy-78,w:12,h:78,type:'stone',hp:4},{x:W*.860,y:gy-78,w:12,h:78,type:'stone',hp:4},
+        {x:W*.740,y:gy-94,w:W*.132,h:14,type:'stone',hp:4},
+        {x:W*.760,y:gy-142,w:12,h:48,type:'stone',hp:3},{x:W*.840,y:gy-142,w:12,h:48,type:'stone',hp:3},
+        {x:W*.760,y:gy-156,w:W*.092,h:14,type:'stone',hp:3},
+        {x:W*.775,y:gy-204,w:12,h:48,type:'wood',hp:2},{x:W*.825,y:gy-204,w:12,h:48,type:'wood',hp:2},
+        {x:W*.775,y:gy-218,w:W*.062,h:14,type:'glass',hp:1},
+        {x:W*.875,y:gy-78,w:12,h:78,type:'stone',hp:4},{x:W*.935,y:gy-78,w:12,h:78,type:'stone',hp:4},
+        {x:W*.875,y:gy-94,w:W*.072,h:14,type:'stone',hp:3},
+      ]
+    }),
+  ];
+
+  const levelCfg={
+    easy:{pigHp:1,baseBirds:['red','yellow','blue','green','purple'],triviaType:'easy',triviaEvery:3,label:'FÁCIL',cls:'lb-easy'},
+    medium:{pigHp:2,baseBirds:['red','yellow','blue','green','purple','red','yellow'],triviaType:'mc',triviaEvery:3,label:'MEDIO',cls:'lb-medium'},
+    hard:{pigHp:3,baseBirds:['red','yellow','blue','green','purple','red','yellow','blue','green'],triviaType:'mc',triviaEvery:3,label:'DIFÍCIL',cls:'lb-hard'},
+  };
+  const lc=levelCfg[level];
+  const ws=worldScale[world];
+  const layout=layouts[world]();
+
+  // Ajustar HP de bloques por mundo
+  const adjustedBlocks=layout.blocks.map(b=>({...b,hp:Math.ceil(b.hp*ws.blockMult),maxHp:Math.ceil(b.hp*ws.blockMult),alive:true}));
+  // Ajustar pigs
+  const pigCount=Math.min(layout.pigs.length+(ws.pigMult-1),layout.pigs.length+2);
+  const adjustedPigs=layout.pigs.slice(0,pigCount).map(p=>({...p,hp:lc.pigHp,maxHp:lc.pigHp,alive:true}));
+  // Pájaros
+  const birds=[...lc.baseBirds];
+  for(let i=0;i<ws.birdBonus;i++)birds.push(['red','yellow','blue','green','purple'][i%5]);
+
+  const worldNames=['Renacimiento','Impresionismo','Barroco','Cubismo','Surrealismo','Pop Art','Arte Moderno'];
+
+  return{
+    label:lc.label,cls:lc.cls,
+    triviaType:lc.triviaType,triviaEvery:lc.triviaEvery,
+    birds,pigs:adjustedPigs,blocks:adjustedBlocks,
+    worldName:worldNames[world],worldNum:world+1,
+  };
+}
+
+// ── ESTADO ────────────────────────────────────────────────────────────
+let score2=0,pigs2=[],blocks2=[];
+
+// ── PARTÍCULAS ────────────────────────────────────────────────────────
 function spawnParticles(x,y,cols,n=22){
-  for(let i=0;i<n;i++) particles.push({
-    x,y,color:cols[i%cols.length],
-    vx:(Math.random()-.5)*10,vy:-(Math.random()*8+3),
-    life:1,decay:Math.random()*.04+.018,r:Math.random()*7+2
-  });
+  for(let i=0;i<n;i++)particles.push({x,y,color:cols[i%cols.length],vx:(Math.random()-.5)*10,vy:-(Math.random()*8+3),life:1,decay:Math.random()*.04+.018,r:Math.random()*7+2});
 }
 function updateP(p){p.x+=p.vx;p.y+=p.vy;p.vy+=.18;p.life-=p.decay;}
 function drawP(p){ctx.save();ctx.globalAlpha=Math.max(0,p.life);ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=p.color;ctx.fill();ctx.restore();}
-
-// ── HELPERS ────────────────────────────────────────────────────────────
 function lerp(a,b,t){return a+(b-a)*t;}
-function rectCircle(bl,cx,cy,cr){
-  let nx=Math.max(bl.x,Math.min(cx,bl.x+bl.w));
-  let ny=Math.max(bl.y,Math.min(cy,bl.y+bl.h));
-  let dx=cx-nx,dy=cy-ny; return dx*dx+dy*dy<cr*cr;
-}
+function rectCircle(bl,cx,cy,cr){let nx=Math.max(bl.x,Math.min(cx,bl.x+bl.w)),ny=Math.max(bl.y,Math.min(cy,bl.y+bl.h));let dx=cx-nx,dy=cy-ny;return dx*dx+dy*dy<cr*cr;}
 function dist2(ax,ay,bx,by){let dx=ax-bx,dy=ay-by;return Math.sqrt(dx*dx+dy*dy);}
 
-// ── DRAW SKY / GROUND / ETC ───────────────────────────────────────────
-function drawSky(){
-  let g=ctx.createLinearGradient(0,0,0,H);
-  g.addColorStop(0,'#2980b9');g.addColorStop(.55,'#87CEEB');g.addColorStop(1,'#c0e8f5');
-  ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
-}
-function drawSun(){
-  let x=W-110,y=88;
-  ctx.save();ctx.shadowBlur=28;ctx.shadowColor='#FFF176';
-  ctx.beginPath();ctx.arc(x,y,40,0,Math.PI*2);ctx.fillStyle='#FDD835';ctx.fill();
-  ctx.strokeStyle='#F9A825';ctx.lineWidth=3;ctx.stroke();ctx.restore();
-  for(let i=0;i<8;i++){let a=i/8*Math.PI*2;ctx.save();ctx.strokeStyle='#FDD835';ctx.lineWidth=2;ctx.globalAlpha=.55;ctx.beginPath();ctx.moveTo(x+Math.cos(a)*50,y+Math.sin(a)*50);ctx.lineTo(x+Math.cos(a)*68,y+Math.sin(a)*68);ctx.stroke();ctx.restore();}
-}
-function drawClouds(){
-  [[200,80,1],[510,52,.85],[W-260,110,1.12]].forEach(([x,y,s])=>{
-    ctx.save();ctx.globalAlpha=.88;ctx.fillStyle='#fff';
-    [[0,0,40],[42,12,30],[-42,12,30],[22,-12,28],[-22,-12,28]].forEach(([dx,dy,r])=>{ctx.beginPath();ctx.arc(x+dx*s,y+dy*s,r*s,0,Math.PI*2);ctx.fill();});
-    ctx.restore();
-  });
-}
-function drawGround(){
-  ctx.fillStyle='#5d8a2c';ctx.fillRect(0,H-80,W,80);
-  ctx.fillStyle='#4a7222';ctx.beginPath();ctx.moveTo(0,H-80);
-  for(let x=0;x<=W;x+=30)ctx.lineTo(x,H-80-(Math.sin(x*.1)*5+4));
-  ctx.lineTo(W,H-80);ctx.closePath();ctx.fill();
-  ctx.fillStyle='#8B5E3C';ctx.fillRect(0,H-18,W,18);
-}
-function drawMountains(){
-  [[W*.55,200],[W*.70,152],[W*.63,242]].forEach(([x,h])=>{
-    ctx.fillStyle='#6aaa4b';ctx.beginPath();ctx.moveTo(x-h*.8,H-80);ctx.lineTo(x,H-80-h);ctx.lineTo(x+h*.8,H-80);ctx.closePath();ctx.fill();
-    ctx.fillStyle='#5a9e3d';ctx.beginPath();ctx.moveTo(x-12,H-80-h+35);ctx.lineTo(x,H-80-h);ctx.lineTo(x+12,H-80-h+35);ctx.closePath();ctx.fill();
-  });
-}
-function drawSling(){
-  let sx=slingPos.x,sy=slingPos.y;
-  ctx.strokeStyle='#6B3A1F';ctx.lineWidth=8;ctx.lineCap='round';
-  ctx.beginPath();ctx.moveTo(sx-20,sy+60);ctx.lineTo(sx,sy);ctx.stroke();
-  ctx.beginPath();ctx.moveTo(sx+20,sy+60);ctx.lineTo(sx+10,sy);ctx.stroke();
-  ctx.fillStyle='#5C2E0A';ctx.beginPath();ctx.arc(sx,sy,6,0,Math.PI*2);ctx.fill();
-  ctx.beginPath();ctx.arc(sx+10,sy,6,0,Math.PI*2);ctx.fill();
-  ctx.fillStyle='#8B5E3C';ctx.fillRect(sx-23,sy+58,9,50);ctx.fillRect(sx+15,sy+58,9,50);
-}
-
-// ── DRAW BIRD ─────────────────────────────────────────────────────────
+// ── DIBUJO ────────────────────────────────────────────────────────────
+function drawSky(){let g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#2980b9');g.addColorStop(.55,'#87CEEB');g.addColorStop(1,'#c0e8f5');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);}
+function drawSun(){let x=W-110,y=88;ctx.save();ctx.shadowBlur=28;ctx.shadowColor='#FFF176';ctx.beginPath();ctx.arc(x,y,40,0,Math.PI*2);ctx.fillStyle='#FDD835';ctx.fill();ctx.strokeStyle='#F9A825';ctx.lineWidth=3;ctx.stroke();ctx.restore();for(let i=0;i<8;i++){let a=i/8*Math.PI*2;ctx.save();ctx.strokeStyle='#FDD835';ctx.lineWidth=2;ctx.globalAlpha=.55;ctx.beginPath();ctx.moveTo(x+Math.cos(a)*50,y+Math.sin(a)*50);ctx.lineTo(x+Math.cos(a)*68,y+Math.sin(a)*68);ctx.stroke();ctx.restore();}}
+function drawClouds(){[[200,80,1],[510,52,.85],[W-260,110,1.12]].forEach(([x,y,s])=>{ctx.save();ctx.globalAlpha=.88;ctx.fillStyle='#fff';[[0,0,40],[42,12,30],[-42,12,30],[22,-12,28],[-22,-12,28]].forEach(([dx,dy,r])=>{ctx.beginPath();ctx.arc(x+dx*s,y+dy*s,r*s,0,Math.PI*2);ctx.fill();});ctx.restore();});}
+function drawGround(){ctx.fillStyle='#5d8a2c';ctx.fillRect(0,H-80,W,80);ctx.fillStyle='#4a7222';ctx.beginPath();ctx.moveTo(0,H-80);for(let x=0;x<=W;x+=30)ctx.lineTo(x,H-80-(Math.sin(x*.1)*5+4));ctx.lineTo(W,H-80);ctx.closePath();ctx.fill();ctx.fillStyle='#8B5E3C';ctx.fillRect(0,H-18,W,18);}
+function drawMountains(){[[W*.55,200],[W*.70,152],[W*.63,242]].forEach(([x,h])=>{ctx.fillStyle='#6aaa4b';ctx.beginPath();ctx.moveTo(x-h*.8,H-80);ctx.lineTo(x,H-80-h);ctx.lineTo(x+h*.8,H-80);ctx.closePath();ctx.fill();ctx.fillStyle='#5a9e3d';ctx.beginPath();ctx.moveTo(x-12,H-80-h+35);ctx.lineTo(x,H-80-h);ctx.lineTo(x+12,H-80-h+35);ctx.closePath();ctx.fill();});}
+function drawSling(){let sx=slingPos.x,sy=slingPos.y;ctx.strokeStyle='#6B3A1F';ctx.lineWidth=8;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(sx-20,sy+60);ctx.lineTo(sx,sy);ctx.stroke();ctx.beginPath();ctx.moveTo(sx+20,sy+60);ctx.lineTo(sx+10,sy);ctx.stroke();ctx.fillStyle='#5C2E0A';ctx.beginPath();ctx.arc(sx,sy,6,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(sx+10,sy,6,0,Math.PI*2);ctx.fill();ctx.fillStyle='#8B5E3C';ctx.fillRect(sx-23,sy+58,9,50);ctx.fillRect(sx+15,sy+58,9,50);}
 function drawBird(x,y,r,type,angle,powered){
   ctx.save();ctx.translate(x,y);if(angle)ctx.rotate(angle);
   if(powered){ctx.save();ctx.globalAlpha=.35;ctx.beginPath();ctx.arc(0,0,r*1.7,0,Math.PI*2);ctx.fillStyle=birdColor(type);ctx.fill();ctx.restore();}
   if(type==='red'){
-    ctx.beginPath();ctx.arc(0,0,r,0,Math.PI*2);
-    let g=ctx.createRadialGradient(-r*.3,-r*.3,r*.1,0,0,r);
-    g.addColorStop(0,'#e74c3c');g.addColorStop(1,'#922b21');
-    ctx.fillStyle=g;ctx.fill();ctx.strokeStyle='#7b241c';ctx.lineWidth=2;ctx.stroke();
-    ctx.fillStyle='#fff';ctx.beginPath();ctx.ellipse(r*.15,-r*.2,r*.22,r*.18,0,0,Math.PI*2);ctx.fill();
-    ctx.fillStyle='#222';ctx.beginPath();ctx.arc(r*.2,-r*.22,r*.1,0,Math.PI*2);ctx.fill();
-    ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(r*.23,-r*.25,r*.04,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.arc(0,0,r,0,Math.PI*2);let g=ctx.createRadialGradient(-r*.3,-r*.3,r*.1,0,0,r);g.addColorStop(0,'#e74c3c');g.addColorStop(1,'#922b21');ctx.fillStyle=g;ctx.fill();ctx.strokeStyle='#7b241c';ctx.lineWidth=2;ctx.stroke();
+    ctx.fillStyle='#fff';ctx.beginPath();ctx.ellipse(r*.15,-r*.2,r*.22,r*.18,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#222';ctx.beginPath();ctx.arc(r*.2,-r*.22,r*.1,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(r*.23,-r*.25,r*.04,0,Math.PI*2);ctx.fill();
     ctx.strokeStyle='#f39c12';ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(r*.32,-r*.05);ctx.lineTo(r*.52,0);ctx.lineTo(r*.32,r*.08);ctx.stroke();
-    ctx.fillStyle='#c0392b';ctx.beginPath();ctx.moveTo(-r*.5,-r*.6);ctx.lineTo(-r*.1,-r*.1);ctx.lineTo(r*.1,-r*.6);ctx.closePath();ctx.fill();
-    ctx.beginPath();ctx.moveTo(-r*.7,-r*.5);ctx.lineTo(-r*.3,-r*.05);ctx.lineTo(-r*.1,-r*.55);ctx.closePath();ctx.fill();
+    ctx.fillStyle='#c0392b';ctx.beginPath();ctx.moveTo(-r*.5,-r*.6);ctx.lineTo(-r*.1,-r*.1);ctx.lineTo(r*.1,-r*.6);ctx.closePath();ctx.fill();ctx.beginPath();ctx.moveTo(-r*.7,-r*.5);ctx.lineTo(-r*.3,-r*.05);ctx.lineTo(-r*.1,-r*.55);ctx.closePath();ctx.fill();
   } else if(type==='yellow'){
     ctx.save();ctx.rotate(Math.PI/4);ctx.fillStyle='#F9A825';ctx.fillRect(-r*.8,-r*.8,r*1.6,r*1.6);ctx.restore();
-    ctx.fillStyle='#fff';ctx.beginPath();ctx.ellipse(r*.2,-r*.15,r*.22,r*.18,0,0,Math.PI*2);ctx.fill();
-    ctx.fillStyle='#222';ctx.beginPath();ctx.arc(r*.25,-r*.18,r*.1,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#fff';ctx.beginPath();ctx.ellipse(r*.2,-r*.15,r*.22,r*.18,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#222';ctx.beginPath();ctx.arc(r*.25,-r*.18,r*.1,0,Math.PI*2);ctx.fill();
     ctx.strokeStyle='#e67e22';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(r*.38,0);ctx.lineTo(r*.58,r*.05);ctx.lineTo(r*.38,r*.12);ctx.stroke();
   } else if(type==='blue'){
-    ctx.fillStyle='#2980b9';ctx.beginPath();ctx.arc(0,0,r,0,Math.PI*2);ctx.fill();
-    ctx.strokeStyle='#1a5276';ctx.lineWidth=2;ctx.stroke();
-    ctx.fillStyle='#fff';ctx.beginPath();ctx.ellipse(r*.1,-r*.2,r*.2,r*.16,0,0,Math.PI*2);ctx.fill();
-    ctx.fillStyle='#222';ctx.beginPath();ctx.arc(r*.15,-r*.22,r*.09,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#2980b9';ctx.beginPath();ctx.arc(0,0,r,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#1a5276';ctx.lineWidth=2;ctx.stroke();
+    ctx.fillStyle='#fff';ctx.beginPath();ctx.ellipse(r*.1,-r*.2,r*.2,r*.16,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#222';ctx.beginPath();ctx.arc(r*.15,-r*.22,r*.09,0,Math.PI*2);ctx.fill();
     ctx.strokeStyle='#1a5276';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(r*.3,0);ctx.lineTo(r*.5,r*.05);ctx.lineTo(r*.3,r*.1);ctx.stroke();
   } else if(type==='green'){
-    ctx.fillStyle='#27ae60';ctx.beginPath();ctx.arc(0,0,r,0,Math.PI*2);ctx.fill();
-    ctx.strokeStyle='#1a6627';ctx.lineWidth=2;ctx.stroke();
-    ctx.fillStyle='#fff';ctx.beginPath();ctx.ellipse(r*.1,-r*.2,r*.2,r*.16,0,0,Math.PI*2);ctx.fill();
-    ctx.fillStyle='#222';ctx.beginPath();ctx.arc(r*.14,-r*.22,r*.09,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#27ae60';ctx.beginPath();ctx.arc(0,0,r,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#1a6627';ctx.lineWidth=2;ctx.stroke();
+    ctx.fillStyle='#fff';ctx.beginPath();ctx.ellipse(r*.1,-r*.2,r*.2,r*.16,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#222';ctx.beginPath();ctx.arc(r*.14,-r*.22,r*.09,0,Math.PI*2);ctx.fill();
     ctx.strokeStyle='#145a32';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(r*.3,0);ctx.lineTo(r*.5,r*.05);ctx.lineTo(r*.3,r*.1);ctx.stroke();
     ctx.fillStyle='#1a8a40';ctx.beginPath();ctx.moveTo(-r*.4,-r*.65);ctx.lineTo(0,-r*.15);ctx.lineTo(r*.15,-r*.7);ctx.closePath();ctx.fill();
   } else if(type==='purple'){
-    ctx.fillStyle='#8e44ad';ctx.beginPath();ctx.arc(0,0,r,0,Math.PI*2);ctx.fill();
-    ctx.strokeStyle='#5b2c6f';ctx.lineWidth=2;ctx.stroke();
-    ctx.fillStyle='#fff';ctx.beginPath();ctx.ellipse(r*.1,-r*.2,r*.2,r*.16,0,0,Math.PI*2);ctx.fill();
-    ctx.fillStyle='#222';ctx.beginPath();ctx.arc(r*.14,-r*.22,r*.09,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#8e44ad';ctx.beginPath();ctx.arc(0,0,r,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#5b2c6f';ctx.lineWidth=2;ctx.stroke();
+    ctx.fillStyle='#fff';ctx.beginPath();ctx.ellipse(r*.1,-r*.2,r*.2,r*.16,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#222';ctx.beginPath();ctx.arc(r*.14,-r*.22,r*.09,0,Math.PI*2);ctx.fill();
     ctx.strokeStyle='#5b2c6f';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(r*.3,0);ctx.lineTo(r*.5,r*.05);ctx.lineTo(r*.3,r*.1);ctx.stroke();
     ctx.fillStyle='#6c3483';ctx.beginPath();ctx.moveTo(-r*.5,-r*.5);ctx.lineTo(0,-r*.1);ctx.lineTo(r*.2,-r*.6);ctx.closePath();ctx.fill();
+  } else if(type==='golden'){
+    // Pájaro dorado especial — grande, brillante, estrella
+    ctx.save();
+    // Aura pulsante
+    ctx.globalAlpha=0.25+Math.abs(Math.sin(Date.now()*.003))*.3;
+    ctx.beginPath();ctx.arc(0,0,r*2.2,0,Math.PI*2);
+    let aura=ctx.createRadialGradient(0,0,r*.5,0,0,r*2.2);
+    aura.addColorStop(0,'#f1c40f');aura.addColorStop(1,'rgba(241,196,15,0)');
+    ctx.fillStyle=aura;ctx.fill();ctx.globalAlpha=1;ctx.restore();
+    // Cuerpo
+    ctx.beginPath();ctx.arc(0,0,r*1.15,0,Math.PI*2);
+    let g=ctx.createRadialGradient(-r*.3,-r*.3,r*.1,0,0,r*1.15);
+    g.addColorStop(0,'#fff176');g.addColorStop(0.5,'#f1c40f');g.addColorStop(1,'#e67e22');
+    ctx.fillStyle=g;ctx.fill();ctx.strokeStyle='#d4a200';ctx.lineWidth=2.5;ctx.stroke();
+    // Estrella decorativa
+    ctx.save();ctx.rotate(Date.now()*.001);
+    for(let i=0;i<5;i++){
+      let a=i/5*Math.PI*2-Math.PI/2;
+      ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(Math.cos(a)*r*1.5,Math.sin(a)*r*1.5);
+      ctx.strokeStyle='rgba(255,255,150,0.5)';ctx.lineWidth=1.5;ctx.stroke();
+    }
+    ctx.restore();
+    // Ojos
+    ctx.fillStyle='#fff';ctx.beginPath();ctx.ellipse(r*.2,-r*.2,r*.24,r*.2,0,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#222';ctx.beginPath();ctx.arc(r*.24,-r*.22,r*.1,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(r*.28,-r*.26,r*.04,0,Math.PI*2);ctx.fill();
+    // Pico
+    ctx.strokeStyle='#e67e22';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(r*.4,-r*.05);ctx.lineTo(r*.65,0);ctx.lineTo(r*.4,r*.1);ctx.stroke();
+    // Corona
+    ctx.fillStyle='#e67e22';
+    ctx.beginPath();ctx.moveTo(-r*.3,-r*.8);ctx.lineTo(-r*.1,-r*.45);ctx.lineTo(r*.1,-r*.85);ctx.lineTo(r*.3,-r*.45);ctx.lineTo(r*.5,-r*.8);ctx.lineTo(r*.4,-r*.5);ctx.lineTo(-r*.2,-r*.5);ctx.closePath();ctx.fill();
+    ctx.fillStyle='#f1c40f';ctx.beginPath();ctx.arc(r*.1,-r*.85,r*.08,0,Math.PI*2);ctx.fill();
   }
   ctx.restore();
 }
-function birdColor(t){return{red:'#e74c3c',yellow:'#F9A825',blue:'#2980b9',green:'#27ae60',purple:'#8e44ad'}[t]||'#888';}
-
+function birdColor(t){return{red:'#e74c3c',yellow:'#F9A825',blue:'#2980b9',green:'#27ae60',purple:'#8e44ad',golden:'#f1c40f'}[t]||'#888';}
 function drawPig(pig){
   if(!pig.alive)return;
-  let{x,y,r,hp,maxHp}=pig;
-  ctx.save();ctx.translate(x,y);
+  let{x,y,r,hp,maxHp}=pig;ctx.save();ctx.translate(x,y);
   let g=ctx.createRadialGradient(-r*.2,-r*.3,r*.05,0,0,r);
-  let c1=hp===maxHp?'#58d68d':hp===1?'#f0b27a':'#a9cce3';
-  let c2=hp===maxHp?'#1e8449':hp===1?'#ca6f1e':'#5d6d7e';
+  let c1=hp===maxHp?'#58d68d':hp===1?'#f0b27a':'#a9cce3';let c2=hp===maxHp?'#1e8449':hp===1?'#ca6f1e':'#5d6d7e';
   g.addColorStop(0,c1);g.addColorStop(1,c2);
-  ctx.beginPath();ctx.arc(0,0,r,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();
-  ctx.strokeStyle='#1a6627';ctx.lineWidth=2;ctx.stroke();
-  ctx.fillStyle='#1e8449';
-  ctx.beginPath();ctx.ellipse(-r*.3,-r*.5,r*.18,r*.22,Math.PI/6,0,Math.PI*2);ctx.fill();
-  ctx.beginPath();ctx.ellipse(r*.3,-r*.5,r*.18,r*.22,-Math.PI/6,0,Math.PI*2);ctx.fill();
-  ctx.fillStyle='#fff';
-  ctx.beginPath();ctx.ellipse(-r*.22,-r*.1,r*.28,r*.24,0,0,Math.PI*2);ctx.fill();
-  ctx.beginPath();ctx.ellipse(r*.22,-r*.1,r*.28,r*.24,0,0,Math.PI*2);ctx.fill();
-  ctx.fillStyle='#1a5276';
-  ctx.beginPath();ctx.arc(-r*.22,-r*.12,r*.13,0,Math.PI*2);ctx.fill();
-  ctx.beginPath();ctx.arc(r*.22,-r*.12,r*.13,0,Math.PI*2);ctx.fill();
-  ctx.fillStyle='#fff';
-  ctx.beginPath();ctx.arc(-r*.18,-r*.16,r*.05,0,Math.PI*2);ctx.fill();
-  ctx.beginPath();ctx.arc(r*.26,-r*.16,r*.05,0,Math.PI*2);ctx.fill();
+  ctx.beginPath();ctx.arc(0,0,r,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();ctx.strokeStyle='#1a6627';ctx.lineWidth=2;ctx.stroke();
+  ctx.fillStyle='#1e8449';ctx.beginPath();ctx.ellipse(-r*.3,-r*.5,r*.18,r*.22,Math.PI/6,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.ellipse(r*.3,-r*.5,r*.18,r*.22,-Math.PI/6,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#fff';ctx.beginPath();ctx.ellipse(-r*.22,-r*.1,r*.28,r*.24,0,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.ellipse(r*.22,-r*.1,r*.28,r*.24,0,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#1a5276';ctx.beginPath();ctx.arc(-r*.22,-r*.12,r*.13,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(r*.22,-r*.12,r*.13,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(-r*.18,-r*.16,r*.05,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(r*.26,-r*.16,r*.05,0,Math.PI*2);ctx.fill();
   ctx.fillStyle='#27ae60';ctx.beginPath();ctx.ellipse(0,r*.2,r*.22,r*.17,0,0,Math.PI*2);ctx.fill();
   ctx.strokeStyle='#1e8449';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(-r*.1,r*.22,r*.1,0,Math.PI);ctx.stroke();
   if(hp<maxHp){ctx.strokeStyle='#e74c3c';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(-r*.15,-r*.4);ctx.lineTo(r*.15,-r*.2);ctx.stroke();ctx.beginPath();ctx.moveTo(r*.35,-r*.35);ctx.lineTo(r*.55,-r*.15);ctx.stroke();}
-  // HP dots
-  for(let i=0;i<maxHp;i++){ctx.beginPath();ctx.arc(-r*.3+i*r*.3,r*.55,r*.1,0,Math.PI*2);ctx.fillStyle=i<hp?'#f1c40f':'#7f8c8d';ctx.fill();}
+  for(let i=0;i<Math.min(maxHp,5);i++){ctx.beginPath();ctx.arc(-r*.3+i*(r*.6/Math.max(maxHp-1,1)),r*.6,r*.09,0,Math.PI*2);ctx.fillStyle=i<hp?'#f1c40f':'#7f8c8d';ctx.fill();}
   ctx.restore();
 }
 function drawBlock(b){
-  if(!b.alive)return;
-  let{x,y,w,h,type,hp,maxHp}=b;
-  ctx.save();
-  if(type==='wood'){
-    ctx.fillStyle=hp===maxHp?'#d4a555':'#a0714a';
-    ctx.fillRect(x,y,w,h);ctx.strokeStyle='#8B5E3C';ctx.lineWidth=2;ctx.strokeRect(x,y,w,h);
-    ctx.strokeStyle='#c8974c';ctx.lineWidth=1;ctx.setLineDash([4,4]);
-    ctx.beginPath();ctx.moveTo(x+8,y);ctx.lineTo(x+8,y+h);ctx.stroke();
-    if(w>24){ctx.beginPath();ctx.moveTo(x+w-8,y);ctx.lineTo(x+w-8,y+h);ctx.stroke();}
-    ctx.setLineDash([]);
-  } else if(type==='stone'){
-    ctx.fillStyle=hp===maxHp?'#7f8c8d':'#5d6d7e';
-    ctx.fillRect(x,y,w,h);ctx.strokeStyle='#566573';ctx.lineWidth=2;ctx.strokeRect(x,y,w,h);
-    for(let i=0;i<Math.min(3,Math.floor(w/14));i++){ctx.fillStyle='#95a5a6';ctx.beginPath();ctx.arc(x+w*.25+i*w*.25,y+h*.5,3,0,Math.PI*2);ctx.fill();}
-  } else {
-    ctx.fillStyle=hp===maxHp?'#e8f8ff':'#bdc3c7';
-    ctx.fillRect(x,y,w,h);ctx.strokeStyle='#85c1e9';ctx.lineWidth=2;ctx.strokeRect(x,y,w,h);
-    if(hp<maxHp){ctx.strokeStyle='#e74c3c';ctx.lineWidth=1;ctx.setLineDash([3,3]);ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+w,y+h);ctx.stroke();ctx.setLineDash([]);}
-  }
+  if(!b.alive)return;let{x,y,w,h,type,hp,maxHp}=b;ctx.save();
+  if(type==='wood'){ctx.fillStyle=hp===maxHp?'#d4a555':'#a0714a';ctx.fillRect(x,y,w,h);ctx.strokeStyle='#8B5E3C';ctx.lineWidth=2;ctx.strokeRect(x,y,w,h);ctx.strokeStyle='#c8974c';ctx.lineWidth=1;ctx.setLineDash([4,4]);ctx.beginPath();ctx.moveTo(x+8,y);ctx.lineTo(x+8,y+h);ctx.stroke();if(w>24){ctx.beginPath();ctx.moveTo(x+w-8,y);ctx.lineTo(x+w-8,y+h);ctx.stroke();}ctx.setLineDash([]);}
+  else if(type==='stone'){ctx.fillStyle=hp===maxHp?'#7f8c8d':'#5d6d7e';ctx.fillRect(x,y,w,h);ctx.strokeStyle='#566573';ctx.lineWidth=2;ctx.strokeRect(x,y,w,h);for(let i=0;i<Math.min(3,Math.floor(w/14));i++){ctx.fillStyle='#95a5a6';ctx.beginPath();ctx.arc(x+w*.25+i*w*.25,y+h*.5,3,0,Math.PI*2);ctx.fill();}}
+  else{ctx.fillStyle=hp===maxHp?'#e8f8ff':'#bdc3c7';ctx.fillRect(x,y,w,h);ctx.strokeStyle='#85c1e9';ctx.lineWidth=2;ctx.strokeRect(x,y,w,h);if(hp<maxHp){ctx.strokeStyle='#e74c3c';ctx.lineWidth=1;ctx.setLineDash([3,3]);ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+w,y+h);ctx.stroke();ctx.setLineDash([]);}}
   ctx.restore();
 }
 function drawTrajectory(){
   if(!dragging||!dragCurrent)return;
-  let dx=slingPos.x-dragCurrent.x,dy=slingPos.y-dragCurrent.y;
-  let vx=dx*POWER_MUL,vy=dy*POWER_MUL,tx=slingPos.x+5,ty=slingPos.y;
-  ctx.save();ctx.setLineDash([7,7]);ctx.strokeStyle='rgba(255,255,255,.65)';ctx.lineWidth=2.5;
-  ctx.beginPath();ctx.moveTo(tx,ty);
+  let dx=slingPos.x-dragCurrent.x,dy=slingPos.y-dragCurrent.y,vx=dx*POWER_MUL,vy=dy*POWER_MUL,tx=slingPos.x+5,ty=slingPos.y;
+  ctx.save();ctx.setLineDash([7,7]);ctx.strokeStyle='rgba(255,255,255,.65)';ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(tx,ty);
   for(let i=0;i<60;i++){tx+=vx;ty+=vy;vy+=GRAV;ctx.lineTo(tx,ty);if(ty>H-80)break;}
-  ctx.stroke();ctx.setLineDash([]);
-  if(ty>=H-80){ctx.save();ctx.globalAlpha=.7;ctx.beginPath();ctx.arc(tx,H-80,8,0,Math.PI*2);ctx.fillStyle='#e74c3c';ctx.fill();ctx.restore();}
-  ctx.restore();
+  ctx.stroke();ctx.setLineDash([]);ctx.restore();
 }
 function drawElastic(){
   if(launched||!projectile)return;
@@ -396,293 +513,256 @@ function drawElastic(){
   ctx.beginPath();ctx.moveTo(slingPos.x,slingPos.y);ctx.lineTo(bx,by);ctx.stroke();
   ctx.beginPath();ctx.moveTo(slingPos.x+10,slingPos.y);ctx.lineTo(bx,by);ctx.stroke();
 }
-function drawQueueBirds(){
-  birdQueue.forEach((b,i)=>drawBird(slingPos.x-68-i*36,H-96,17-i*1.2,b,0,false));
-}
+function drawQueueBirds(){birdQueue.forEach((b,i)=>drawBird(slingPos.x-68-i*36,H-96,17-i*1.2,b,0,false));}
 
-// ── POWER ACTIVATION ──────────────────────────────────────────────────
+// ── PODER ─────────────────────────────────────────────────────────────
 function activatePower(){
   if(!projectile||!projectile.active||powerUsed)return;
-  powerUsed=true;
-  let t=projectile.type;
+  powerUsed=true;let t=projectile.type;
   spawnParticles(projectile.x,projectile.y,[birdColor(t),'#fff','#f1c40f'],30);
-  if(t==='red'){
-    // Triple shot: spawn 2 clones angled ±15°
-    let angle=Math.atan2(projectile.vy,projectile.vx);
-    let spd=Math.sqrt(projectile.vx**2+projectile.vy**2);
-    [-0.26,0.26].forEach(da=>{
-      clones.push({x:projectile.x,y:projectile.y,vx:Math.cos(angle+da)*spd,vy:Math.sin(angle+da)*spd,r:18,type:'red',active:true,powered:false});
-    });
-  } else if(t==='yellow'){
-    // Turbo boost
-    let spd=Math.sqrt(projectile.vx**2+projectile.vy**2);
-    let angle=Math.atan2(projectile.vy,projectile.vx);
-    projectile.vx=Math.cos(angle)*spd*2.5;
-    projectile.vy=Math.sin(angle)*spd*2.5;
-  } else if(t==='blue'){
-    // Explosion: damage all near
+  if(t==='red'){let angle=Math.atan2(projectile.vy,projectile.vx),spd=Math.sqrt(projectile.vx**2+projectile.vy**2);[-0.26,0.26].forEach(da=>{clones.push({x:projectile.x,y:projectile.y,vx:Math.cos(angle+da)*spd,vy:Math.sin(angle+da)*spd,r:18,type:'red',active:true,powered:false});});}
+  else if(t==='yellow'){let spd=Math.sqrt(projectile.vx**2+projectile.vy**2),angle=Math.atan2(projectile.vy,projectile.vx);projectile.vx=Math.cos(angle)*spd*2.5;projectile.vy=Math.sin(angle)*spd*2.5;}
+  else if(t==='blue'){
     let ex=projectile.x,ey=projectile.y,er=140;
     pigs.forEach(p=>{if(p.alive&&dist2(ex,ey,p.x,p.y)<er){p.hp-=2;if(p.hp<=0){p.alive=false;score+=200;}}});
     blocks.forEach(bl=>{if(bl.alive&&rectCircle({x:ex-er,y:ey-er,w:er*2,h:er*2},bl.x+bl.w/2,bl.y+bl.h/2,er)){bl.hp--;if(bl.hp<=0){bl.alive=false;score+=50;}}});
     spawnParticles(ex,ey,['#2980b9','#85c1e9','#fff','#f1c40f'],60);
-    projectile=null;launched=false;
-    document.getElementById('score').textContent=score;
+    projectile=null;launched=false;document.getElementById('score').textContent=score;
     if(pigs.every(p=>!p.alive)&&!gameOver){gameOver=true;setTimeout(endGame,700);}
-    else setTimeout(()=>{if(!gameOver)nextBird();},500);
-    return;
-  } else if(t==='green'){
-    // Boomerang: reverse X velocity
-    projectile.vx*=-1.4;
-  } else if(t==='purple'){
-    // Dive bomb: sudden downward
-    projectile.vy=Math.abs(projectile.vy)*3+8;
-    projectile.vx*=0.3;
+    else setTimeout(()=>{if(!gameOver)nextBird();},500);return;
   }
-}
+  else if(t==='green'){projectile.vx*=-1.4;}
+  else if(t==='purple'){projectile.vy=Math.abs(projectile.vy)*3+8;projectile.vx*=0.3;}
+  else if(t==='golden'){
+    // Destruye todos los bloques en radio grande y daña todos los cerdos
+    let ex=projectile.x,ey=projectile.y,er=220;
+    pigs.forEach(p=>{if(p.alive&&dist2(ex,ey,p.x,p.y)<er){p.hp-=3;if(p.hp<=0){p.alive=false;score+=400;}}});
+    blocks.forEach(bl=>{if(bl.alive){bl.hp=0;bl.alive=false;score+=100;}});
+    spawnParticles(ex,ey,['#f1c40f','#fff176','#e67e22','#fff'],80);
+    projectile=null;launched=false;document.getElementById('score').textContent=score;
+    if(pigs.every(p=>!p.alive)&&!gameOver){gameOver=true;setTimeout(endGame,700);}
+    else setTimeout(()=>{if(!gameOver)nextBird();},500);return;
+  }
 
-// ── BIRD PHYSICS (also clones) ─────────────────────────────────────────
+// ── FÍSICA ────────────────────────────────────────────────────────────
 function updateProjectile(proj,dt,removeCb){
-  proj.x+=proj.vx*dt; proj.y+=proj.vy*dt; proj.vy+=GRAV*dt;
-  if(proj.y>H-80-proj.r){
-    proj.y=H-80-proj.r; proj.vy*=-BOUNCE; proj.vx*=.7;
-    if(Math.abs(proj.vy)<1){spawnParticles(proj.x,proj.y,['#c8974c','#d4a555']);removeCb();return;}
-  }
+  proj.x+=proj.vx*dt;proj.y+=proj.vy*dt;proj.vy+=GRAV*dt;
+  if(proj.y>H-80-proj.r){proj.y=H-80-proj.r;proj.vy*=-BOUNCE;proj.vx*=.7;if(Math.abs(proj.vy)<1){spawnParticles(proj.x,proj.y,['#c8974c','#d4a555']);removeCb();return;}}
   if(proj.x>W+80||proj.x<-80){removeCb();return;}
-  blocks.forEach(bl=>{
-    if(!bl.alive||!proj)return;
-    if(rectCircle(bl,proj.x,proj.y,proj.r)){
-      bl.hp--;if(bl.hp<=0){bl.alive=false;score+=50;spawnParticles(bl.x+bl.w/2,bl.y+bl.h/2,['#d4a555','#7f8c8d','#e8e8e8']);}
-      let nx=proj.x-(bl.x+bl.w/2),ny=proj.y-(bl.y+bl.h/2),len=Math.sqrt(nx*nx+ny*ny)||1;nx/=len;ny/=len;
-      let dot=proj.vx*nx+proj.vy*ny;
-      proj.vx=(proj.vx-1.4*dot*nx)*.65;proj.vy=(proj.vy-1.4*dot*ny)*.65;
-      document.getElementById('score').textContent=score;
-    }
-  });
-  pigs.forEach(pig=>{
-    if(!pig.alive||!proj)return;
-    if(dist2(proj.x,proj.y,pig.x,pig.y)<pig.r+proj.r){
-      pig.hp--;if(pig.hp<=0){pig.alive=false;score+=200;spawnParticles(pig.x,pig.y,['#58d68d','#27ae60','#fff','#f1c40f']);}
-      else spawnParticles(pig.x,pig.y,['#a9dfbf']);
-      document.getElementById('score').textContent=score;
-      let nx=proj.x-pig.x||.1,ny=proj.y-pig.y||.1,len=Math.sqrt(nx*nx+ny*ny);nx/=len;ny/=len;
-      let dot=proj.vx*nx+proj.vy*ny;
-      proj.vx=(proj.vx-1.6*dot*nx)*.5;proj.vy=(proj.vy-1.6*dot*ny)*.5;
-    }
-  });
+  blocks.forEach(bl=>{if(!bl.alive||!proj)return;if(rectCircle(bl,proj.x,proj.y,proj.r)){bl.hp--;if(bl.hp<=0){bl.alive=false;score+=doublePointsActive?100:50;spawnParticles(bl.x+bl.w/2,bl.y+bl.h/2,['#d4a555','#7f8c8d','#e8e8e8']);}let nx=proj.x-(bl.x+bl.w/2),ny=proj.y-(bl.y+bl.h/2),len=Math.sqrt(nx*nx+ny*ny)||1;nx/=len;ny/=len;let dot=proj.vx*nx+proj.vy*ny;proj.vx=(proj.vx-1.4*dot*nx)*.65;proj.vy=(proj.vy-1.4*dot*ny)*.65;document.getElementById('score').textContent=score;}});
+  pigs.forEach(pig=>{if(!pig.alive||!proj)return;if(dist2(proj.x,proj.y,pig.x,pig.y)<pig.r+proj.r){pig.hp--;if(pig.hp<=0){pig.alive=false;score+=doublePointsActive?400:200;spawnParticles(pig.x,pig.y,['#58d68d','#27ae60','#fff','#f1c40f']);}else spawnParticles(pig.x,pig.y,['#a9dfbf']);document.getElementById('score').textContent=score;let nx=proj.x-pig.x||.1,ny=proj.y-pig.y||.1,len=Math.sqrt(nx*nx+ny*ny);nx/=len;ny/=len;let dot=proj.vx*nx+proj.vy*ny;proj.vx=(proj.vx-1.6*dot*nx)*.5;proj.vy=(proj.vy-1.6*dot*ny)*.5;}});
 }
 
 // ── TRIVIA ────────────────────────────────────────────────────────────
-let triviaShownCount=0;
-let pendingTrivia=null;
-
+let worldCfg=null;
 function maybeShowTrivia(cb){
-  let cfg=LEVELS[currentLevel];
-  if(cfg.triviaType==='easy'){
-    let items=shuffle(TRIVIAS_EASY);
-    let item=items[triviaShownCount%items.length];
-    triviaShownCount++;
-    showTriviaEasy(item,cb);
+  if(worldCfg.triviaType==='easy'){
+    let items=shuffle(TRIVIAS_EASY);let item=items[triviaShownCount%items.length];triviaShownCount++;showTriviaEasy(item,cb);
+  } else if(worldCfg.triviaType==='mc'){
+    // Alternar: par=VF, impar=MC
+    if(triviaShownCount%2===0){
+      let items=shuffle(TRIVIAS_VF);let item=items[triviaShownCount%items.length];triviaShownCount++;showTriviaVF(item,cb);
+    } else {
+      let items=shuffle(TRIVIAS_MC);let item=items[triviaShownCount%items.length];triviaShownCount++;showTriviaMC(item,cb);
+    }
   } else {
-    let items=shuffle(TRIVIAS_VF);
-    let item=items[triviaShownCount%items.length];
-    triviaShownCount++;
-    showTriviaVF(item,cb);
+    let items=shuffle(TRIVIAS_VF);let item=items[triviaShownCount%items.length];triviaShownCount++;showTriviaVF(item,cb);
   }
 }
-
 function showTriviaEasy(item,cb){
-  document.getElementById('trivia-title').textContent='🌎 ¿Sabías que...?';
+  document.getElementById('trivia-cat').textContent=item.cat;
+  document.getElementById('trivia-title').textContent='🎨 ¿Sabías que...?';
   document.getElementById('trivia-q').textContent=item.q;
   document.getElementById('trivia-feedback').textContent='';
-  let wrap=document.getElementById('trivia-opts-wrap');
-  wrap.innerHTML=`<p style="font-size:13px;color:#7f4a00;background:#fff3cd;border-radius:8px;padding:8px 12px;margin:0;">${item.info}</p>`;
+  document.getElementById('trivia-opts-wrap').innerHTML=`<p style="font-size:13px;color:#4a235a;background:#f5f0ff;border-radius:8px;padding:10px 14px;margin:0;line-height:1.5;">${item.info}</p>`;
   document.getElementById('trivia-close').style.display='inline-block';
-  pendingTrivia=cb;
-  showScreen('trivia');
+  pendingTrivia=cb;showScreen('trivia');
 }
 function showTriviaVF(item,cb){
-  document.getElementById('trivia-title').textContent='⚡ Pregunta V/F — ¡Gana un pájaro!';
+  document.getElementById('trivia-cat').textContent=item.cat;
+  document.getElementById('trivia-title').textContent='🖼️ ¿V o F? — ¡Gana un pájaro!';
   document.getElementById('trivia-q').textContent=item.q;
   document.getElementById('trivia-feedback').textContent='';
   document.getElementById('trivia-close').style.display='none';
-  let wrap=document.getElementById('trivia-opts-wrap');
-  wrap.innerHTML=`<div class="trivia-opts"><button class="topt topt-v" onclick="answerVF(true)">✔ Verdadero</button><button class="topt topt-f" onclick="answerVF(false)">✘ Falso</button></div>`;
-  pendingTrivia={cb,item};
-  showScreen('trivia');
+  document.getElementById('trivia-opts-wrap').innerHTML=`<div class="trivia-opts"><button class="topt topt-v" onclick="answerVF(true)">✔ Verdadero</button><button class="topt topt-f" onclick="answerVF(false)">✘ Falso</button></div>`;
+  pendingTrivia={cb,item,type:'vf'};showScreen('trivia');
+}
+function showTriviaMC(item,cb){
+  document.getElementById('trivia-cat').textContent=item.cat;
+  document.getElementById('trivia-title').innerHTML='🏆 Selección múltiple — <span class="double-pts-badge">✦ PUNTOS x2</span><span class="golden-bird-badge">🌟 Pájaro Dorado</span>';
+  document.getElementById('trivia-q').textContent=item.q;
+  document.getElementById('trivia-feedback').textContent='';
+  document.getElementById('trivia-close').style.display='none';
+  let shuffledOpts=item.opts.map((o,i)=>({text:o,correct:i===item.ans}));
+  // No mezclar para mantener coherencia, pero se puede mezclar si se quiere
+  let html='<div class="mc-opts">';
+  shuffledOpts.forEach((o,i)=>{
+    html+=`<button class="mc-btn" onclick="answerMC(${i},${o.correct})" id="mc-opt-${i}">${String.fromCharCode(65+i)}. ${o.text}</button>`;
+  });
+  html+='</div>';
+  document.getElementById('trivia-opts-wrap').innerHTML=html;
+  pendingTrivia={cb,item,type:'mc'};showScreen('trivia');
 }
 window.answerVF=function(ans){
-  let{cb,item}=pendingTrivia;
-  let correct=ans===item.fact;
+  let{cb,item}=pendingTrivia;let correct=ans===item.fact;
   let fb=document.getElementById('trivia-feedback');
-  let wrap=document.getElementById('trivia-opts-wrap');
-  wrap.innerHTML='';
+  document.getElementById('trivia-opts-wrap').innerHTML='';
+  if(correct){fb.style.color='#27ae60';fb.textContent='¡Correcto! +1 pájaro. '+item.info;birdQueue.push(['red','yellow','blue','green','purple'][Math.floor(Math.random()*5)]);document.getElementById('bcount').textContent=birdQueue.length;}
+  else{fb.style.color='#e74c3c';fb.textContent='Incorrecto. '+item.info;}
+  document.getElementById('trivia-close').style.display='inline-block';pendingTrivia=cb;
+};
+window.answerMC=function(idx,correct){
+  // Deshabilitar todos los botones
+  for(let i=0;i<4;i++){
+    let btn=document.getElementById('mc-opt-'+i);
+    if(btn){btn.disabled=true;btn.style.opacity='0.7';}
+  }
+  let btn=document.getElementById('mc-opt-'+idx);
+  if(btn)btn.className='mc-btn '+(correct?'correct':'wrong');
+  // Mostrar la correcta si falló
+  if(!correct){
+    let {item}=pendingTrivia;
+    let correctBtn=document.getElementById('mc-opt-'+item.ans);
+    if(correctBtn)correctBtn.className='mc-btn correct';
+  }
+  let fb=document.getElementById('trivia-feedback');
+  let{cb,item}=pendingTrivia;
   if(correct){
     fb.style.color='#27ae60';
-    fb.textContent='¡Correcto! +1 pájaro extra. '+item.info;
-    let extraType=['red','yellow','blue','green','purple'][Math.floor(Math.random()*5)];
-    birdQueue.push(extraType);
+    fb.textContent='¡Correcto! Puntos x2 + Pájaro Dorado. '+item.info;
+    score=score; // los puntos dobles se aplican en el siguiente lanzamiento via flag
+    doublePointsActive=true;
+    birdQueue.unshift('golden'); // pájaro dorado va primero
     document.getElementById('bcount').textContent=birdQueue.length;
   } else {
     fb.style.color='#e74c3c';
-    fb.textContent='Incorrecto. '+item.info;
+    fb.textContent='Incorrecto. La respuesta correcta era: '+item.opts[item.ans]+'. '+item.info;
   }
   document.getElementById('trivia-close').style.display='inline-block';
   pendingTrivia=cb;
 };
-window.closeTrivia=function(){
-  showScreen('game');
-  let cb=pendingTrivia;
-  pendingTrivia=null;
-  if(typeof cb==='function') cb();
-};
+window.closeTrivia=function(){showScreen('game');let cb=pendingTrivia;pendingTrivia=null;if(typeof cb==='function')cb();};
 
-// ── SCREENS ────────────────────────────────────────────────────────────
+// ── PANTALLAS ─────────────────────────────────────────────────────────
 function showScreen(name){
-  document.getElementById('menu-screen').classList.add('off');
-  document.getElementById('trivia-screen').classList.add('off');
-  document.getElementById('result-screen').classList.add('off');
+  ['welcome-screen','levels-screen','worlds-screen','trivia-screen','result-screen'].forEach(id=>{let el=document.getElementById(id);if(el)el.classList.add('off');});
   document.getElementById('ui').style.display='none';
-  if(name==='menu') document.getElementById('menu-screen').classList.remove('off');
-  else if(name==='trivia') document.getElementById('trivia-screen').classList.remove('off');
-  else if(name==='result') document.getElementById('result-screen').classList.remove('off');
-  else if(name==='game') document.getElementById('ui').style.display='flex';
+  if(name==='welcome')document.getElementById('welcome-screen').classList.remove('off');
+  else if(name==='levels')document.getElementById('levels-screen').classList.remove('off');
+  else if(name==='worlds'){renderWorldsScreen();document.getElementById('worlds-screen').classList.remove('off');}
+  else if(name==='trivia')document.getElementById('trivia-screen').classList.remove('off');
+  else if(name==='result')document.getElementById('result-screen').classList.remove('off');
+  else if(name==='game')document.getElementById('ui').style.display='flex';
 }
 
-// ── GAME LOGIC ────────────────────────────────────────────────────────
-let birdsLaunched=0;
-function startGame(level){
-  currentLevel=level; score=0; gameOver=false; launched=false; dragging=false;
-  projectile=null; particles=[]; dragCurrent=null; clones=[];
-  triviaShownCount=0; birdsLaunched=0;
-  let cfg=LEVELS[level];
-  document.getElementById('level-badge').textContent=cfg.label;
-  document.getElementById('level-badge').className=cfg.cls;
+window.selectLevel=function(level){currentLevel=level;showScreen('worlds');};
+
+function renderWorldsScreen(){
+  const titles={easy:'🌿 Nivel Fácil',medium:'🎭 Nivel Medio',hard:'🔥 Nivel Difícil'};
+  const subs={easy:'Datos curiosos de arte · 3 cerdos por mundo',medium:'Preguntas V/F de arte · 5 cerdos por mundo',hard:'Preguntas V/F avanzadas · 7 cerdos por mundo'};
+  const btnCls={easy:'easy-w',medium:'medium-w',hard:'hard-w'};
+  document.getElementById('worlds-title').textContent=titles[currentLevel];
+  document.getElementById('worlds-subtitle').textContent=subs[currentLevel];
+  const prog=progress[currentLevel];
+  const grid=document.getElementById('worlds-grid');
+  const worldNames=['Renacimiento','Impressionismo','Barroco','Cubismo','Surrealismo','Pop Art','Moderno'];
+  grid.innerHTML='';
+  for(let i=0;i<7;i++){
+    const unlocked=i===0||(prog[i-1]!==null);
+    const stars=prog[i];
+    const btn=document.createElement('button');
+    btn.className='world-btn '+(unlocked?'unlocked '+btnCls[currentLevel]:'locked');
+    btn.innerHTML=`<span class="wnum">${i+1}</span><span class="wname">${worldNames[i]}</span><span class="stars-row">${stars!==null?'⭐'.repeat(stars)+'☆'.repeat(3-stars):'🔒'}</span>`;
+    if(unlocked){btn.onclick=()=>startWorld(currentLevel,i);}
+    grid.appendChild(btn);
+  }
+}
+
+// ── JUEGO ─────────────────────────────────────────────────────────────
+function startWorld(level,world){
+  currentLevel=level;currentWorld=world;
+  score=0;gameOver=false;launched=false;dragging=false;
+  projectile=null;particles=[];dragCurrent=null;clones=[];
+  triviaShownCount=0;birdsLaunched=0;doublePointsActive=false;
+  worldCfg=getWorldConfig(level,world);
+  pigs=[...worldCfg.pigs];
+  blocks=[...worldCfg.blocks];
+  birdQueue=[...worldCfg.birds];
+  document.getElementById('level-badge').textContent=worldCfg.label;
+  document.getElementById('level-badge').className=worldCfg.cls;
+  document.getElementById('world-badge').textContent=`Mundo ${worldCfg.worldNum} · ${worldCfg.worldName}`;
   document.getElementById('score').textContent='0';
-  let gy=H-80;
-  let layout=cfg.layout(gy);
-  pigs=layout.pigs.map(p=>({...p,hp:cfg.pigHp,maxHp:cfg.pigHp,alive:true}));
-  blocks=layout.blocks.map(b=>({...b,maxHp:b.hp,alive:true}));
-  birdQueue=[...cfg.birds];
   document.getElementById('bcount').textContent=birdQueue.length;
-  showScreen('game');
-  nextBird();
+  showScreen('game');nextBird();
 }
 function nextBird(){
   if(gameOver)return;
-  let cfg=LEVELS[currentLevel];
-  // Show trivia every N birds (after first)
-  let shouldTrivia=birdsLaunched>0&&(birdsLaunched%cfg.triviaEvery===0);
+  let shouldTrivia=birdsLaunched>0&&(birdsLaunched%worldCfg.triviaEvery===0);
   if(birdQueue.length===0){setTimeout(endGame,600);return;}
   let doLaunch=()=>{
     let type=birdQueue.shift();
     document.getElementById('bcount').textContent=birdQueue.length;
     projectile={x:slingPos.x+5,y:slingPos.y,vx:0,vy:0,r:22,type,active:false,powered:false};
-    launched=false; powerUsed=false;
-    // update hint
-    let hints={red:'Clic Der: dispara x3',yellow:'Clic Der: turbo',blue:'Clic Der: explosión',green:'Clic Der: bumerán',purple:'Clic Der: aplastón'};
+    launched=false;powerUsed=false;
+    let hints={red:'Der: dispara x3',yellow:'Der: turbo',blue:'Der: explosión',green:'Der: bumerán',purple:'Der: aplastón',golden:'Der: ¡DESTRUCCIÓN TOTAL!'};
     document.getElementById('power-hint').textContent=hints[type]||'';
+    if(type==='golden'){document.getElementById('power-hint').style.background='#f1c40f';document.getElementById('power-hint').style.color='#3b1060';}
+    else{document.getElementById('power-hint').style.background='#fff3cd';document.getElementById('power-hint').style.color='#7f4a00';}
+    // Resetear puntos dobles después de lanzar el pájaro dorado
+    if(type!=='golden')doublePointsActive=false;
     showScreen('game');
   };
-  if(shouldTrivia) maybeShowTrivia(doLaunch);
-  else doLaunch();
+  if(shouldTrivia)maybeShowTrivia(doLaunch);else doLaunch();
 }
 function endGame(){
-  if(gameOver&&document.getElementById('result-screen').classList.contains('off')){}
   gameOver=true;
-  let alive=pigs.filter(p=>p.alive).length;
-  let win=alive===0;
+  let alive=pigs.filter(p=>p.alive).length,win=alive===0;
   let stars=win?(birdQueue.length>=3?3:birdQueue.length>=1?2:1):0;
+  // Guardar progreso solo si mejora
+  if(win&&(progress[currentLevel][currentWorld]===null||stars>progress[currentLevel][currentWorld])){
+    progress[currentLevel][currentWorld]=stars;saveProgress();
+  }
   document.getElementById('result-title').textContent=win?'¡Ganaste! 🎉':'Sin pájaros 😞';
   document.getElementById('result-stars').textContent=win?'⭐'.repeat(stars)+'☆'.repeat(3-stars):'💀💀💀';
-  document.getElementById('result-text').textContent=win?`¡Destruiste todos los cerdos! Puntuación: ${score}`:`Quedan ${alive} cerdos. Puntuación: ${score}`;
-  let order=['easy','medium','hard'];
-  let idx=order.indexOf(currentLevel);
-  document.getElementById('next-btn').style.display=win&&idx<2?'inline-block':'none';
+  document.getElementById('result-text').textContent=win?`Mundo ${currentWorld+1} completado · Puntuación: ${score}`:`Quedan ${alive} cerdos · Puntuación: ${score}`;
+  document.getElementById('next-btn').style.display=win&&currentWorld<6?'inline-block':'none';
   showScreen('result');
 }
-window.goNext=function(){
-  let order=['easy','medium','hard'];
-  let idx=order.indexOf(currentLevel);
-  if(idx<2) startGame(order[idx+1]);
-};
+window.goNext=function(){if(currentWorld<6)startWorld(currentLevel,currentWorld+1);};
+window.replayWorld=function(){startWorld(currentLevel,currentWorld);};
 
 // ── INPUT ─────────────────────────────────────────────────────────────
 function getPos(e){return e.touches?{x:e.touches[0].clientX,y:e.touches[0].clientY}:{x:e.clientX,y:e.clientY};}
 let lastTap=0;
-function onDown(e){
-  if(gameOver||!projectile||projectile.active)return;
-  let p=getPos(e),dx=p.x-projectile.x,dy=p.y-projectile.y;
-  if(Math.sqrt(dx*dx+dy*dy)<55){dragging=true;dragCurrent={x:projectile.x,y:projectile.y};}
-}
-function onMove(e){
-  if(!dragging)return;if(e.cancelable)e.preventDefault();
-  let p=getPos(e),dx=p.x-slingPos.x,dy=p.y-slingPos.y,d=Math.sqrt(dx*dx+dy*dy);
-  if(d>MAX_PULL){dx=dx/d*MAX_PULL;dy=dy/d*MAX_PULL;}
-  dragCurrent={x:slingPos.x+dx,y:slingPos.y+dy};
-  projectile.x=dragCurrent.x;projectile.y=dragCurrent.y;
-}
-function onUp(){
-  if(!dragging)return;dragging=false;
-  if(!dragCurrent)return;
-  let dx=slingPos.x-dragCurrent.x,dy=slingPos.y-dragCurrent.y;
-  if(Math.abs(dx)<4&&Math.abs(dy)<4){dragCurrent=null;return;}
-  projectile.vx=dx*POWER_MUL;projectile.vy=dy*POWER_MUL;
-  projectile.active=true;launched=true;dragCurrent=null;
-  birdsLaunched++;
-}
+function onDown(e){if(gameOver||!projectile||projectile.active)return;let p=getPos(e),dx=p.x-projectile.x,dy=p.y-projectile.y;if(Math.sqrt(dx*dx+dy*dy)<55){dragging=true;dragCurrent={x:projectile.x,y:projectile.y};}}
+function onMove(e){if(!dragging)return;if(e.cancelable)e.preventDefault();let p=getPos(e),dx=p.x-slingPos.x,dy=p.y-slingPos.y,d=Math.sqrt(dx*dx+dy*dy);if(d>MAX_PULL){dx=dx/d*MAX_PULL;dy=dy/d*MAX_PULL;}dragCurrent={x:slingPos.x+dx,y:slingPos.y+dy};projectile.x=dragCurrent.x;projectile.y=dragCurrent.y;}
+function onUp(){if(!dragging)return;dragging=false;if(!dragCurrent)return;let dx=slingPos.x-dragCurrent.x,dy=slingPos.y-dragCurrent.y;if(Math.abs(dx)<4&&Math.abs(dy)<4){dragCurrent=null;return;}projectile.vx=dx*POWER_MUL;projectile.vy=dy*POWER_MUL;projectile.active=true;launched=true;dragCurrent=null;birdsLaunched++;}
 canvas.addEventListener('contextmenu',e=>{e.preventDefault();activatePower();});
-canvas.addEventListener('mousedown',onDown);
-canvas.addEventListener('mousemove',onMove);
-canvas.addEventListener('mouseup',onUp);
-canvas.addEventListener('touchstart',e=>{
-  let now=Date.now();
-  if(now-lastTap<280){activatePower();}
-  lastTap=now;
-  onDown(e);
-},{passive:false});
-canvas.addEventListener('touchmove',onMove,{passive:false});
-canvas.addEventListener('touchend',onUp,{passive:false});
+canvas.addEventListener('mousedown',onDown);canvas.addEventListener('mousemove',onMove);canvas.addEventListener('mouseup',onUp);
+canvas.addEventListener('touchstart',e=>{let now=Date.now();if(now-lastTap<280){activatePower();}lastTap=now;onDown(e);},{passive:false});
+canvas.addEventListener('touchmove',onMove,{passive:false});canvas.addEventListener('touchend',onUp,{passive:false});
 
-// ── MAIN LOOP ─────────────────────────────────────────────────────────
+// ── LOOP ──────────────────────────────────────────────────────────────
 let lastTime=0;
 function loop(ts){
   let dt=Math.min((ts-lastTime)/16,2.5);lastTime=ts;
   ctx.clearRect(0,0,W,H);
   drawSky();drawSun();drawClouds();drawMountains();drawGround();
-  blocks.forEach(b=>drawBlock(b));
-  pigs.forEach(p=>drawPig(p));
-  particles.forEach(p=>{updateP(p);drawP(p);});
-  particles=particles.filter(p=>p.life>0);
+  blocks.forEach(b=>drawBlock(b));pigs.forEach(p=>drawPig(p));
+  particles.forEach(p=>{updateP(p);drawP(p);});particles=particles.filter(p=>p.life>0);
   drawQueueBirds();drawSling();
   if(!launched){drawElastic();drawTrajectory();}
-
-  // Draw clones
   clones.forEach(c=>drawBird(c.x,c.y,c.r,c.type,Math.atan2(c.vy,c.vx),false));
-  // Update clones
-  let deadClones=[];
-  clones.forEach((c,i)=>{
-    updateProjectile(c,dt,()=>deadClones.push(i));
-  });
-  deadClones.reverse().forEach(i=>clones.splice(i,1));
-
-  // Draw + update main projectile
+  let deadClones=[];clones.forEach((c,i)=>{updateProjectile(c,dt,()=>deadClones.push(i));});deadClones.reverse().forEach(i=>clones.splice(i,1));
   if(projectile){
-    drawBird(projectile.x,projectile.y,projectile.r,projectile.type,
-      projectile.active?Math.atan2(projectile.vy,projectile.vx):0,powerUsed&&projectile.active);
-    if(projectile.active&&!gameOver){
-      let dead=false;
-      updateProjectile(projectile,dt,()=>{dead=true;});
-      if(dead){projectile=null;launched=false;setTimeout(()=>{if(!gameOver)nextBird();},450);}
-    }
+    drawBird(projectile.x,projectile.y,projectile.r,projectile.type,projectile.active?Math.atan2(projectile.vy,projectile.vx):0,powerUsed&&projectile.active);
+    if(projectile.active&&!gameOver){let dead=false;updateProjectile(projectile,dt,()=>{dead=true;});if(dead){projectile=null;launched=false;setTimeout(()=>{if(!gameOver)nextBird();},450);}}
   }
-
-  if(pigs.every(p=>!p.alive)&&!gameOver){gameOver=true;setTimeout(endGame,700);}
+  if(pigs.length&&pigs.every(p=>!p.alive)&&!gameOver){gameOver=true;setTimeout(endGame,700);}
   document.getElementById('score').textContent=score;
   requestAnimationFrame(loop);
 }
-
 window.addEventListener('resize',()=>{canvas.width=window.innerWidth;canvas.height=window.innerHeight;});
-showScreen('menu');
-loop(0);
+showScreen('welcome');loop(0);
 </script>
 </body></html>
